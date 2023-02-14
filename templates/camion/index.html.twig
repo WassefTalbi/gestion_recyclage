@@ -1,0 +1,52 @@
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Camion index{% endblock %}
+
+{% block dashboard %}
+<div class="container">
+    <div class="row">
+      <div> <a href="{{ path('app_camion_new') }}"><i class="bi bi-plus-square-fill"></i>camion</a> </div>
+    </div>
+    <div class="row">
+      {% for camion in camions %}
+      <div class=col-md-4> 
+           <div class="panel-default">
+              <div class="panel-heading text-center ">
+            <h4>  {{camion.marque}} </h4>
+              </div>
+               <div class="panel-body">
+                 <div>
+                  <img src="{{ asset('uploads/camion_image/') ~ camion.urlphoto }}" alt="camion photo" height="200" width="200">
+                 </div>
+                  <div> 
+                   <a href="{{ path('app_camion_edit', {'id': camion.id}) }}" class="btn btn-default btn-margin" id="btn-edit" 
+                      aria-label="Settings">
+                      edite
+                    <i class="bi bi-pencil-square"></i>
+                   </a> 
+                      <a href="{{ path('app_camion_show', {'id': camion.id}) }}" class="btn btn-default btn-margin" id="btn-edit" 
+                           aria-label="Settings">
+                           details
+                          <i class="bi bi-ticket-detailed"></i>
+                       </a>
+                  </div>
+              </div>
+              
+            </div>
+      </div>
+         {% endfor %}
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+   
+{% endblock %}

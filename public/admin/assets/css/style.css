@@ -238,6 +238,8 @@ h6 {
   border: none;
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+  width: 1100px;
+  height: auto;
 }
 
 .card-header,
@@ -264,6 +266,8 @@ h6 {
 
 .card-body {
   padding: 0 20px 20px 20px;
+  width: 1000px;
+  height: auto;
 }
 
 .card-img-overlay {
@@ -383,6 +387,20 @@ h6 {
 .logo img {
   max-height: 26px;
   margin-right: 6px;
+}
+.logoo {
+  line-height: 1;
+}
+
+@media (min-width: 1200px) {
+  .logoo {
+    width: 280px;
+  }
+}
+.logoo img {
+  max-height: 26px;
+  margin-right: 6px;
+
 }
 
 .logo span {

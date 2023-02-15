@@ -758,6 +758,8 @@ section {
 --------------------------------------------------------------*/
 .portfolio .portfolio-item {
   margin-bottom: 30px;
+  box-shadow: 0px 0px 7px 7px 0 rgba(0, 0, 0, 0.1);
+  
 }
 
 .portfolio #portfolio-flters {
@@ -765,6 +767,7 @@ section {
   margin: 0 auto 20px auto;
   list-style: none;
   text-align: center;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio #portfolio-flters li {
@@ -780,16 +783,19 @@ section {
   transition: all 0.3s ease-in-out;
   border-radius: 50px;
   font-family: "Poppins", sans-serif;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio #portfolio-flters li:hover,
 .portfolio #portfolio-flters li.filter-active {
   color: #fff;
   background: #009970;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio #portfolio-flters li:last-child {
   margin-right: 0;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio .portfolio-wrap {
@@ -798,6 +804,9 @@ section {
   overflow: hidden;
   z-index: 1;
   background: rgba(54, 52, 58, 0.6);
+  width: 350px;
+  max-height: 480px;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio .portfolio-wrap::before {
@@ -811,6 +820,7 @@ section {
   transition: all ease-in-out 0.3s;
   z-index: 2;
   opacity: 0;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio .portfolio-wrap img {
@@ -831,6 +841,7 @@ section {
   justify-content: flex-end;
   align-items: center;
   padding: 20px;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
 .portfolio .portfolio-wrap .portfolio-info h4 {
@@ -1288,6 +1299,10 @@ section {
   padding-right: 10px;
   color: #4f4c55;
   content: "/";
+}
+.detail-img{
+  width: auto;
+  height: auto;
 }
 
 @media (max-width: 768px) {

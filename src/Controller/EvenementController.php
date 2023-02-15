@@ -12,12 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 #[Route('/evenement')]
-class EvenementController extends AbstractController
+class EvenementController extends AbstractController 
 {
     #[Route('/', name: 'app_evenement_index', methods: ['GET'])]
     public function index(EvenementRepository $evenementRepository): Response
     {
         return $this->render('admin/index.html.twig', [
+            'evenements' => $evenementRepository->findAll(),
+        ]);
+    }
+    #[Route('/front', name: 'app_evenement_indexx', methods: ['GET'])]
+    public function indexFront(EvenementRepository $evenementRepository): Response
+    {
+        return $this->render('client/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
@@ -52,7 +59,7 @@ class EvenementController extends AbstractController
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('evenement/new.html.twig', [
+        return $this->renderForm('admin/add.html.twig', [
             'evenement' => $evenement,
             'form' => $form,
         ]);
@@ -61,7 +68,14 @@ class EvenementController extends AbstractController
     #[Route('/{id}', name: 'app_evenement_show', methods: ['GET'])]
     public function show(Evenement $evenement): Response
     {
-        return $this->render('evenement/show.html.twig', [
+        return $this->render('admin/detail.html.twig', [
+            'evenement' => $evenement,
+        ]);
+    }
+    #[Route('/f/{id}', name: 'app_evenement_showx', methods: ['GET'])]
+    public function showF(Evenement $evenement): Response
+    {
+        return $this->render('client/detail.html.twig', [
             'evenement' => $evenement,
         ]);
     }
@@ -73,12 +87,30 @@ class EvenementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $evenementRepository->save($evenement, true);
+             
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            // Handle file upload
+            $file = $evenement->getImageFile();
+            if ($file) {
+               
+                $newFileName =uniqid().'.'.$file->guessExtension();
+               
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $newFileName
+                );
+
+                $evenement->setImageName($newFileName);
+            }
+            
+            $entityManager->persist($evenement);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('evenement/edit.html.twig', [
+        return $this->renderForm('admin/update.html.twig', [
             'evenement' => $evenement,
             'form' => $form,
         ]);

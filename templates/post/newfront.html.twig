@@ -1,0 +1,11 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+    <h1>Create new Post</h1>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    {{ include('post/_form.html.twig') }}
+
+    <a href="{{ path('app_post_front') }}">back to list</a>
+{% endblock %}

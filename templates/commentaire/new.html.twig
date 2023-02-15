@@ -1,0 +1,12 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}New Commentaire{% endblock %}
+
+{% block body %}
+<div style = "position:relative; left:350px; top:200px;">
+    <h1>Create new Commentaire</h1>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    {{ include('commentaire/_form.html.twig') }}
+
+    <a href="{{ path('app_commentaire_index') }}">back to list</a>
+{% endblock %}

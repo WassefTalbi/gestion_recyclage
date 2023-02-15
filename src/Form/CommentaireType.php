@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Commentaire;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Post;
+
+class CommentaireType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('contenu')
+            ->add('date')
+            ->add('idpost',EntityType::class,['class'=> Post::class,
+           'choice_label'=>'titre',
+           'label'=>'idpost'])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Commentaire::class,
+        ]);
+    }
+}

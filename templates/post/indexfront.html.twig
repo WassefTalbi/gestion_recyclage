@@ -1,0 +1,46 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Post index{% endblock %}
+
+{% block body %}
+    
+<div style = "position:relative; left:350px; top:200px;">
+    <h1>Post index</h1>
+    
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdPost</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>UrlImg</th>
+                <th>Titre</th>
+                <th>Active</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.idPost }}</td>
+                <td>{{ post.description }}</td>
+                <td>{{ post.date ? post.date|date('Y-m-d') : '' }}</td>
+                <td>{{ post.urlImg }}</td>
+                <td>{{ post.titre }}</td>
+                <td>{{ post.active }}</td>
+                <td>
+                    <a href="{{ path('app_post_showfront', {'idPost': post.idPost}) }}">show</a>
+                    <a href="{{ path('app_post_editfront', {'idPost': post.idPost}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_post_newfront') }}">Create new</a>
+{% endblock %}

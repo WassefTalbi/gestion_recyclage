@@ -1,13 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Edit Camion{% endblock %}
 
-{% block body %}
+{% block dashboard %}
+   <div>   <i class="bi bi-arrow-left-square-fill"></i>
+      <a href="{{ path('app_camion_index') }}">Liste Camion
+      </a>
+    </div>
     <h1>Edit Camion</h1>
 
     {{ include('camion/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_camion_index') }}">back to list</a>
-
-    {{ include('camion/_delete_form.html.twig') }}
 {% endblock %}

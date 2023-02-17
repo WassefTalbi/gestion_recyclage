@@ -1,0 +1,32 @@
+
+
+
+<div class="container">
+
+ {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+            <div class="form-group">
+                <label for="description">Description</label>
+                 {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}                   
+                 {{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
+                     
+            </div>
+            <div class="form-group">
+                  <label for="dateMission">Date Mission</label>
+                 {{ form_widget(form.dateMission) }}
+                 {{ form_errors(form.dateMission) }}
+
+            </div>
+
+                       
+
+                         <div class="form-group text-right m-b-0">
+                            {{ form_widget(form.Ajouter, {'attr': {'class': 'btn btn-info mt-2 text-white'}}) }}
+
+                            <button type="reset" class="btn btn-secondary mt-2 ">reset</button>
+
+                        </div>
+  {{ form_end(form) }}
+
+</div>
+
+   

@@ -1,11 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}New Camion{% endblock %}
 
-{% block body %}
+{% block dashboard %}
+<div>   <i class="bi bi-arrow-left-square-fill"></i>
+     <a href="{{ path('app_camion_index') }}">Liste Camion
+     </a>
+    </div>
     <h1>Create new Camion</h1>
 
     {{ include('camion/_form.html.twig') }}
 
-    <a href="{{ path('app_camion_index') }}">back to list</a>
 {% endblock %}

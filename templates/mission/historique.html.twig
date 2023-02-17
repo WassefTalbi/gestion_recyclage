@@ -1,0 +1,36 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Mission index{% endblock %}
+
+{% block dashboard %}
+
+    <h1> Mission Historique </h1>
+
+    <table class="table">
+        <thead>
+            <tr>             
+                <th>Description</th>
+                <th>DateMission</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mission in missions %}
+            <tr>
+                <td>{{ mission.description }}</td>
+                <td>{{ mission.dateMission ? mission.dateMission|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_mission_show', {'id': mission.id}) }}"> <button class="btn btn-info">details</button></a>
+                
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+ 
+{% endblock %}

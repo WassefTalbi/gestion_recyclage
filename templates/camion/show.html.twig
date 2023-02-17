@@ -7,7 +7,7 @@
 
 
 <div class="container">
- <a href="{{ path('app_camion_index') }}">back to list</a>
+  <div>   <i class="bi bi-arrow-left-square-fill"></i><a href="{{ path('app_camion_index') }}">Liste Camion</a></div>
     <h1>Camion {{ camion.marque }}</h1>
     <div class="panel-default">
          <div class="panel-heading">
@@ -19,8 +19,8 @@
                   </div>
              
                    
-                      <a href="{{ path('app_camion_delete', {'id': camion.id}) }}"><button class="btn btn-danger margin-top-12 "> supprimer</button></a>    
-                      <a href="{{ path('app_camion_edit', {'id': camion.id}) }}"><button class="btn btn-success"> edite</button></a>
+                      <a href="{{ path('app_camion_delete', {'id': camion.id}) }}"><button class="btn btn-danger btn-sm mt-3 "> delete</button></a>    
+                      <a href="{{ path('app_camion_edit', {'id': camion.id}) }}"><button class="btn btn-success btn-sm mt-3"> edit</button></a>
                     
          </div>
     </div>

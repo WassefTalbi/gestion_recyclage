@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MissionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MissionRepository::class)]
 class Mission
@@ -12,13 +13,17 @@ class Mission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id ;
+    private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private  $description ;
+    #[Assert\NotBlank(message: 'description is required')]
+    #[Assert\Length(min: 20, minMessage: '20 caractere au minimum')]
+    private  $description;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private  $dateMission ;
+    #[Assert\NotBlank(message: 'Date mission is required')]
+    #[Assert\GreaterThanOrEqual("today", message: "Date mission cannot be in the past")]
+    private  $dateMission;
 
     public function getId(): ?int
     {

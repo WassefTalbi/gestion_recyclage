@@ -1,16 +1,13 @@
-{% extends "admin/base.html.twig" %}
 
+<div class="container">
 
-{% block dashboard %}
-
-<div class="container-fluid">
-   <div>   <i class="bi bi-arrow-left-square-fill"></i><a href="{{ path('app_camion_index') }}">Liste Camion</a></div>
-{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+ {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
             <div class="form-group">
                 <label for="matricule">Matricule</label>
                  {{ form_widget(form.matricule, {'attr': {'class': 'form-control'}}) }}
+                    
                  {{ form_errors(form.matricule, {'attr': {'class': 'text-danger'}}) }}
-
+                     
             </div>
             <div class="form-group">
                    {{ form_label(form.marque) }}
@@ -24,39 +21,25 @@
                             <div class="col-sm-12">
                                 <div class="card-box">
                                   <label for="Image">Image</label>
-                                    <div class="dropdown pull-right">
-                                      
-                                    </div>
+                                    
 
                   
-                                    {{ form_widget(form.urlphoto, {'attr': {'class': 'dropify','data-height':'200'}}) }}
+                                    {{ form_widget(form.urlphoto, {'attr': {'class': 'form-control'}}) }}
+                                          {{ form_errors(form.urlphoto, {'attr': {'class': 'text-danger'}}) }}
 
                                 </div>
                             </div>
                         </div>
 
                          <div class="form-group text-right m-b-0">
-                   {{ form_widget(form.Submit, {'attr': {'class': 'btn btn-info mt-2 text-white'}}) }}
+                   {{ form_widget(form.Ajouter, {'attr': {'class': 'btn btn-info mt-2 text-white'}}) }}
 
                             <button type="reset" class="btn btn-secondary mt-2 ">reset</button>
 
                         </div>
- {{ form_end(form) }}
+  {{ form_end(form) }}
 
 </div>
 
-  <script type="text/javascript">
-        $('.dropify').dropify({
-            messages: {
-                'default': 'Drag and drop a file here or click',
-                'replace': 'Drag and drop or click to replace',
-                'remove': 'Remove',
-                'error': 'Ooops, something wrong appended.'
-            },
-            error: {
-                'fileSize': 'The file size is too big (1M max).'
-            }
-        });
-    </script>
    
-{% endblock %}
+

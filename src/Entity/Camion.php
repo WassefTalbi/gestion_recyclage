@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CamionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CamionRepository::class)]
 class Camion
@@ -14,12 +15,17 @@ class Camion
     private  $id ;
 
     #[ORM\Column(type:'string',length: 100,unique:true)]
+    #[Assert\NotBlank(message:'matricule is required')]
+    #[Assert\Length(min:4,minMessage:'4 caractere au minimum')]
     private $matricule ;
 
     #[ORM\Column(type:'string',length: 175)]
+    #[Assert\NotBlank(message:'marque is required')]
+    #[Assert\Length(min:4,minMessage:'4 caractere au minimum')]
     private  $marque ;
 
     #[ORM\Column(type:'string',length: 255,nullable:true)]
+    #[Assert\NotBlank(message:'photo is required')]
     private $urlphoto ;
 
     public function getId(): ?int

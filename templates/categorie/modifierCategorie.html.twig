@@ -1,0 +1,41 @@
+{% extends 'baseback.html.twig' %}
+ {% block texte %}
+        <h1 style="text-align: center;"> Modifier Categorie </h1> 
+
+ {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+
+
+
+        <div class="card">
+            <div class="card-body">
+
+              <!-- Vertical Form -->
+              <form class="row g-3">
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">nom</label>
+                      {{ form_widget(f.nom, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter  nom'}}) }}
+                                                                            {{ form_errors(f.nom,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">description</label>
+                      {{ form_widget(f.description, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter  description'}}) }}
+                                                      {{ form_errors(f.description,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+             
+                <div class="text-center">
+
+          {{ form_widget(f) }}
+
+                </div>
+              </form><!-- Vertical Form -->
+
+            </div>
+          </div>
+{{ form_end(f) }}
+
+ {% endblock %}
+
+ 
+

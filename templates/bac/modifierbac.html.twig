@@ -1,0 +1,56 @@
+{% extends 'baseback.html.twig' %}
+ {% block texte %}
+        <h1 style="text-align: center;"> Modifier Bac </h1> 
+
+ {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+
+
+
+        <div class="card">
+            <div class="card-body">
+
+              <!-- Vertical Form -->
+              <form class="row g-3">
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">referance</label>
+                      {{ form_widget(f.ref, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter the referance'}}) }}
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">adresse</label>
+                      {{ form_widget(f.adresse, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter the adresse'}}) }}
+                                                      {{ form_errors(f.adresse,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+                <div class="col-12">
+                  <label for="inputPassword4" class="form-label">code postal</label>
+                      {{ form_widget(f.codepostal, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'code postal'}}) }}
+                                                      {{ form_errors(f.codepostal,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">capacite</label>
+                      {{ form_widget(f.capacite, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter the capacite'}}) }}
+                                                      {{ form_errors(f.capacite,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+                 <div class="col-12">
+                  <label for="inputAddress" class="form-label">etat</label>
+                      {{ form_widget(f.etat, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter the etat'}}) }}
+                                                      {{ form_errors(f.etat,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+                <div class="text-center">
+
+          {{ form_widget(f) }}
+
+                </div>
+              </form><!-- Vertical Form -->
+
+            </div>
+          </div>
+{{ form_end(f) }}
+
+ {% endblock %}
+
+ 
+

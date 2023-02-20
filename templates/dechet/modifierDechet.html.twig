@@ -1,0 +1,48 @@
+{% extends 'baseback.html.twig' %}
+ {% block texte %}
+        <h1 style="text-align: center;"> Ajouter Dechet </h1> 
+
+ {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+
+
+
+        <div class="card">
+            <div class="card-body">
+
+              <!-- Vertical Form -->
+              <form class="row g-3">
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">quantite</label>
+                      {{ form_widget(f.quantite, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'Enter  quantite'}}) }}
+                                                                            {{ form_errors(f.quantite,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Date</label>
+                      {{ form_widget(f.date, {'attr': {'class': 'form-control','type':'date', 'placeholder': 'Enter  date'}}) }}
+                                                      {{ form_errors(f.date,{ 'attr':{'class':'text-danger'}}) }}
+
+                </div>
+               <div class="col-12">
+                  <label for="inputAddress" class="form-label">id categorie</label>
+                      {{ form_widget(f.idCat) }}
+                </div>
+                  <div class="col-12">
+                  <label for="inputAddress" class="form-label">id bac</label>
+                      {{ form_widget(f.idBac) }}
+                </div>
+                <div class="text-center">
+
+          {{ form_widget(f) }}
+
+                </div>
+              </form><!-- Vertical Form -->
+
+            </div>
+          </div>
+{{ form_end(f) }}
+
+ {% endblock %}
+
+ 
+

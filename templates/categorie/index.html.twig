@@ -1,0 +1,43 @@
+{% extends 'baseback.html.twig' %}
+
+ {% block texte %}
+       <h1 style="text-align: center;"> Afficher Categorie </h1> 
+
+            <!-- Quick Action Toolbar Starts-->
+          
+            <!-- Quick Action Toolbar Ends-->
+        
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+        
+<div class="table-responsive" >
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">nom</th>
+      <th scope="col">description</th>
+      <th scope="col">action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for Categorie in b %}
+    <tr>
+     
+    <td> {{ Categorie.nom }}</td> 
+     <td> {{ Categorie.description}} </td> 
+
+             <td> 
+       <a href="{{path('modifierCategorie',{'id':Categorie.id}) }}">modifier </a>
+               <a href="{{path('deleteCategorie',{'id':Categorie.id}) }}">supprimer </a>
+
+              </td> 
+    </tr>
+  
+      {% endfor %}
+
+  </tbody>
+</table>
+</div>
+{% do b.setPageRange(4) %}
+{{ knp_pagination_render(b, 'bac/pagination.html.twig') }}
+{% endblock %}

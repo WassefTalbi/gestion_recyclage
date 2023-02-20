@@ -1,0 +1,39 @@
+
+{% extends 'basefront.html.twig' %}
+
+ {% block texte %}
+
+       <h1 style="text-align: center;">  Liste de Categorie </h1> 
+
+
+<section id="services" class="services section-bg">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="section-title aos-init aos-animate" data-aos="fade-right">
+              <h2>categories</h2>
+              <p>ici c'est tous les categories de votre dechet qui exite dans nos bacs</p>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row">
+         {% for Categorie in b %}
+              <div class="col-md-6 d-flex align-items-stretch mt-4">
+                <div class="icon-box aos-init aos-animate" data-aos="zoom-in" data-aos-delay="400">
+                  <div class="icon"><i class="bx bx-world"></i></div>
+                  <h4><a href="{{path('ajouterdechetfront',{'id':Categorie.id,'idbac':id}) }}">{{ Categorie.nom }}</a></h4>
+                  <p>{{ Categorie.description}}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+             
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

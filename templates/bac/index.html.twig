@@ -1,0 +1,53 @@
+{% extends 'baseback.html.twig' %}
+
+ {% block texte %}
+
+            <!-- Quick Action Toolbar Starts-->
+          
+            <!-- Quick Action Toolbar Ends-->
+        
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+       <h1 style="text-align: center;"> Afficher Bac </h1> 
+<div class="table-responsive" >
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">ref</th>
+   
+      <th scope="col">adresse</th>
+
+        <th scope="col">codepostal</th>
+      <th scope="col">capacite</th>
+      <th scope="col">etat</th>
+      <th scope="col">action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for bac in b %}
+    <tr>
+     
+    <td> {{ bac.id }}</td> 
+     <td> {{ bac.ref}} </td> 
+   
+       <td>{{  bac.adresse}}</td> 
+        <td>{{  bac.codepostal}} </td> 
+         <td>{{  bac.capacite }}</td> 
+          <td>{{  bac.etat }}</td> 
+
+             <td> 
+          <a href="{{path('modifierBac',{'id':bac.id}) }}">modifier </a>
+               <a href="{{path('deletebac',{'id':bac.id}) }}">supprimer </a>
+
+              </td> 
+    </tr>
+  
+      {% endfor %}
+
+  </tbody>
+</table>
+</div>
+{% do b.setPageRange(4) %}
+{{ knp_pagination_render(b, 'bac/pagination.html.twig') }}
+{% endblock %}

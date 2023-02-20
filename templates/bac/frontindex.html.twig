@@ -1,0 +1,51 @@
+           
+           
+           {% extends 'basefront.html.twig' %}
+
+ {% block texte %}
+
+      
+       <h1 style="text-align: center;"> Afficher Bac </h1> 
+
+                
+
+           <section id="contact" class="contact">
+      <div class="container">
+        <div class="row">
+          
+
+          <div class="col-lg-12 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                {% for bac in b %}
+
+            <div class="info mt-4">
+              <i class="bi bi-geo-alt"></i>
+              <h4>ref : {{ bac.ref}}</h4>
+              <p>adresse:  {{  bac.adresse}}  </p>
+               <p>code postal :  {{  bac.codepostal}}</p>
+                <p>capacite : {{  bac.capacite}}</p>
+                 <p>etat : {{  bac.etat}}</p>
+            </div>
+           <a href="{{path('affichercategoriefront',{'id':bac.id}) }}">   <input type="submit" class="btn btn-success" value="ajouter dechet" style="float:right"></a>
+                {% endfor %}
+
+          
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+           {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

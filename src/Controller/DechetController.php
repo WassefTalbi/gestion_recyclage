@@ -135,7 +135,7 @@ $Dechet=$this->getDoctrine()->getRepository(Dechet::class)->findOneBy(array('id'
 $em=$this->getDoctrine()->getManager();
 $em->remove($Dechet);
 $em->flush();
-return new Response("success");
+    return    $this->redirectToRoute('displayDechet');
 
 }
 }

@@ -118,7 +118,7 @@ $bac=$this->getDoctrine()->getRepository(Bac::class)->findOneBy(array('id'=>$req
 $em=$this->getDoctrine()->getManager();
 $em->remove($bac);
 $em->flush();
-return new Response("success");
+return    $this->redirectToRoute('displaybac');
 
 }
 }

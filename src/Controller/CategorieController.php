@@ -124,7 +124,7 @@ $Categorie=$this->getDoctrine()->getRepository(Categorie::class)->findOneBy(arra
 $em=$this->getDoctrine()->getManager();
 $em->remove($Categorie);
 $em->flush();
-return new Response("success");
+    return    $this->redirectToRoute('displayCategorie');
 
 }
 }

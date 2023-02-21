@@ -11,14 +11,20 @@ class Signalisation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private  $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private  $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateSignal = null;
+    private  $dateSignal = null;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private  $urlphoto = null;
+
+    #[ORM\OneToOne(targetEntity: 'App\Entity\Adresse', cascade: ['persist', 'remove'])]
+    private $adresse = null;
 
     public function getId(): ?int
     {
@@ -45,6 +51,30 @@ class Signalisation
     public function setDateSignal(\DateTimeInterface $dateSignal): self
     {
         $this->dateSignal = $dateSignal;
+
+        return $this;
+    }
+
+    public function getUrlphoto(): ?string
+    {
+        return $this->urlphoto;
+    }
+
+    public function setUrlphoto(string $urlphoto): self
+    {
+        $this->urlphoto = $urlphoto;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

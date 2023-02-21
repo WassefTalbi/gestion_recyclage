@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Mission;
 use App\Form\MissionType;
 use App\Repository\MissionRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +53,18 @@ class MissionController extends AbstractController
     {
         return $this->render('mission/show.html.twig', [
             'mission' => $mission,
+        ]);
+    }
+    #[Route('/parametrage/{id}', name: 'app_mission_parametrage', methods: ['GET'])]
+    public function parametrer(MissionRepository $missionRepository, UserRepository $userRepository, int $id, Mission $mission): Response
+    {
+        $mission = $missionRepository->find($id);
+        $camion= $mission->getCamion();
+        $collecteurs = $userRepository->findMissionCollecteurs($mission);
+        return $this->render('mission/parametrage.html.twig', [
+            'mission' => $mission,
+            'collecteurs' => $collecteurs,
+            'camion'=>$camion,
         ]);
     }
 

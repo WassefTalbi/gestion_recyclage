@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signalisation index{% endblock %}
+
+{% block body %}
+    <h1>Signalisation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>DateSignal</th>
+                <th>Urlphoto</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for signalisation in signalisations %}
+            <tr>
+                <td>{{ signalisation.id }}</td>
+                <td>{{ signalisation.description }}</td>
+                <td>{{ signalisation.dateSignal ? signalisation.dateSignal|date('Y-m-d') : '' }}</td>
+                <td>{{ signalisation.urlphoto }}</td>
+                <td>
+                    <a href="{{ path('app_signalisation_show', {'id': signalisation.id}) }}">show</a>
+                    <a href="{{ path('app_signalisation_edit', {'id': signalisation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_signalisation_new') }}">Create new</a>
+{% endblock %}

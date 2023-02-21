@@ -15,7 +15,6 @@ class TemplateController extends AbstractController
     }
 
 
-
     #[Route('/home', name: 'app_template_home')]
     public function home_index(): Response
     {

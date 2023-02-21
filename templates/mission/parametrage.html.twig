@@ -1,0 +1,56 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Mission parametrage{% endblock %}
+
+{% block dashboard %}
+ <a href="{{ path('app_mission_index') }}">back to list</a>
+
+    <a href="{{ path('app_mission_edit', {'id': mission.id}) }}">edit</a>
+    <h1>Parametrage mission</h1>
+  <div class="container">  
+      <div class="row">
+           <div class="col-md-8">
+               <table class="table">
+                       <tbody>
+           
+                          <tr>
+                             <th>Description</th>
+                              <td>{{ mission.description }}</td>
+                          </tr>
+                            <tr>
+                             <th>Date Mission</th>
+                             <td>{{ mission.dateMission ? mission.dateMission|date('Y-m-d') : '' }}</td>
+                          </tr>
+                          <tr>
+                             <th>Camion</th>
+                             <td>{{camion.matricule }}</td>
+                          </tr>
+                           <tr>
+                             <th>Collecteurs to mission</th>
+                             <td> {% for collecteur in collecteurs %}
+                             <h5> {{ collecteur.cin}} {{ collecteur.nom}} {{ collecteur.prenom}} </h5>
+                              {% else %}
+                                <h5>no records found</h5>
+                             {% endfor %}
+                              </td>
+                          </tr>
+                       </tbody>
+                </table>
+           </div>
+          <div class="col-md-6">
+
+           </div>
+      </div>
+
+      <div class="row">
+   
+      </div>
+ </div>
+
+
+
+
+
+   
+
+{% endblock %}

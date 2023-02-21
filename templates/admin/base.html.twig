@@ -28,6 +28,9 @@
 
   <!-- Template Main CSS File -->
   <link href="{{asset('admin/assets/css/style.css')}}" rel="stylesheet">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
@@ -35,6 +38,11 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+    <style>
+  #mapid{
+    height:400px;
+  }
+  </style>
 </head>
 
 <body>
@@ -996,6 +1004,30 @@
 
   <!-- Template Main JS File -->
   <script src="{{asset('admin/assets/js/main.js')}}"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+<script>
+  var villes={
+  "tunisia":{"lat":36.806389,"lon":10.181667},
+  "ariana":{"lat":36.862499,"lon":10.195556},
+  "mourouj":{"lat":	36.713432,"lon":10.209552},
+          };
+
+    //initialize la carte
+     var mymap = L.map('mapid').setView([36.806389, 10.181667], 13);
+      //on charge les tuile
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(mymap);
+    for(ville in villes){
+      
+       L.marker([villes[ville].lat, villes[ville].lon]).addTo(mymap)
+        .bindPopup("<b>Hello world!</b><br />Tunisia.").openPopup();
+    }
+
+ 
+     </script>
 
 </body>
 

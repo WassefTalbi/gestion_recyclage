@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class BacType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

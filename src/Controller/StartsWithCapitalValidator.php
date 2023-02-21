@@ -3,6 +3,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class StartsWithCapitalValidator extends ConstraintValidator
 {

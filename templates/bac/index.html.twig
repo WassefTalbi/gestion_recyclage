@@ -1,54 +1,125 @@
-{% extends 'baseback.html.twig' %}
+{% extends 'base.html.twig' %}
 
- {% block texte %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
 
-            <!-- Quick Action Toolbar Starts-->
-          
-            <!-- Quick Action Toolbar Ends-->
-        
-          <!-- content-wrapper ends -->
-          <!-- partial:partials/_footer.html -->
-       <h1 style="text-align: center;"> Afficher Bac </h1> 
-<div class="table-responsive" >
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col">ref</th>
-   
-      <th scope="col">adresse</th>
+                <div class="card">
 
-        <th scope="col">codepostal</th>
-      <th scope="col">capacite</th>
-      <th scope="col">etat</th>
-      <th scope="col">action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for bac in b %}
-    <tr>
-     
-    <td> {{ bac.id }}</td> 
-     <td> {{ bac.ref}} </td> 
-   
-       <td>{{  bac.adresse}}</td> 
-        <td>{{  bac.codepostal}} </td> 
-         <td>{{  bac.capacite }}</td> 
-          <td>{{  bac.etat }}</td> 
+                    <!-- /.card-header -->
+                    <div class="panel-body">
 
-             <td> 
-          <a href="{{path('modifierBac',{'id':bac.id}) }}">modifier </a>
-               <a href="{{path('deletebac',{'id':bac.id}) }}">supprimer </a>
+                        <div style="background-color: white;border-radius: 4px;">
+                            <br>
+                            <table class="table">
+                                <thead>
+                                <tr >
+                                    <th scope="col">id</th>
+                                    <th scope="col">nom</th>
+                                    <th scope="col">nbredeplaces</th>
+                                    <th scope="col">type</th>
+                                    <th scope="col">prix</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">image</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for Evenement in b %}
+                                    <tr>
 
-              </td> 
-    </tr>
-  
-      {% endfor %}
+                                        <td>{{Evenement.id}}</td>
+                                        <td>{{Evenement.nom}}</td>
+                                        <td>{{Evenement.nbredeplaces}} </td>
+                                        <td>{{Evenement.type}}</td>
+                                        <td>{{Evenement.prix}}</td>
+                                        <td> {{Evenement.Date|date('d-m-Y')}}</td>
+                                        <td><img height="70px" width="100px" src="{{ asset('uploadss/') }}{{Evenement.image  }}"></td>
+                                        <td><a  href="{{ path('modifierEvent',{'id':Evenement.id}) }}"><button type="button" class="btn btn-success">edit</button> </a>
+                                        <td><a  href="{{ path('SuppEvent',{'id':Evenement.id}) }}"><button type="button" class="btn btn-danger">delete</button> </a> </td>
+                                        <td><a  href="{{ path('pdf',{'id':Evenement.id}) }}"><button type="button" class="btn btn-danger">Export en pdf</button> </a> </td>
+                                    </tr>
+                                {% endfor %}
+                                <div id='calendar'></div>
 
-  </tbody>
-</table>
-</div>
-{% do b.setPageRange(4) %}
-{{ knp_pagination_render(b, 'bac/pagination.html.twig') }}
-     <div></div>
-{% endblock %}
+                                </tbody>
+
+                                <tbody id="search">
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+                    </div>
+                    </form>
+                </div>
+                <!-- //form -->
+            </div>
+        </div>
+    </div>
+    <!-- //banner -->
+    {#  <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte
+                afin d’effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est
+                    envoyée */
+                    url : "{{ path('4444') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type : 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la
+                    zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le
+                    nouveau contenu*/
+                    success : function(re){
+                        if(re){
+                            $('#t tbody#search').empty();
+                            $.each(JSON.parse(re), function(i,obj) {
+                                $('#t tbody#all').hide();
+                                $('#t tbody#search').append('<tr><td>'+obj.nom+'</td> <td> '+obj.type +' </td> <td> '+obj.date+' </td><td> '+obj.prix+' </td>
+
+                            });
+                        }
+                        else
+                        {
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
+    #}
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+            });
+            calendar.render();
+        });
+
+    </script>
+    {% endblock %}

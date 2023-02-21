@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block home1 %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <h1 class="text-black" >Sign up</h1>
+
+    {{ form_start(registrationForm,{'attr': {'novalidate': 'novalidate'}}) }}
+    <table>
+        <tr>
+            <td class="text-black">{{ form_label(registrationForm.fullname,"Full name :") }}</td>
+            <td>{{ form_widget(registrationForm.fullname) }}</td>
+            <td class="text-black">{{ form_errors(registrationForm.fullname) }}</td>
+        </tr>
+        <tr>
+             <td class="text-black">{{ form_label(registrationForm.email,"Email :") }}</td>
+             <td>{{ form_widget(registrationForm.email) }}</td>
+             <td class="text-black">{{ form_errors(registrationForm.email) }}</td>
+        </tr>
+        <tr>
+            <td class="text-black">{{ form_label(registrationForm.Username,"Username :") }}</td>
+            <td>{{ form_widget(registrationForm.Username) }}</td>
+            <td class="text-black">{{ form_errors(registrationForm.Username) }}</td>
+        </tr>
+        <tr>
+             <td class="text-black">{{ form_label(registrationForm.plainPassword,"Password :") }}</td>
+             <td>{{ form_widget(registrationForm.plainPassword) }}</td>
+             <td class="text-black">{{ form_errors(registrationForm.plainPassword) }}</td>
+        </tr>
+        <tr>
+            <td class="text-black">{{ form_label(registrationForm.naissance,"Birthday:") }}</td>
+            <td>{{ form_widget(registrationForm.naissance ) }}</td>
+            <td class="text-black">{{ form_errors(registrationForm.naissance) }}</td>
+        </tr>
+        <tr>
+            <td class="text-black">{{ form_label(registrationForm.agreeTerms,"Agree terms :") }}</td>
+            <td>{{ form_widget(registrationForm.agreeTerms) }}</td>
+            <td class="text-black">{{ form_errors(registrationForm.agreeTerms) }}</td>
+        </tr>
+        <tr>
+             <td><button type="submit" class="btn">Sign up</button></td>
+        </tr>
+    </table>
+    {{ form_end(registrationForm) }}
+{% endblock %}

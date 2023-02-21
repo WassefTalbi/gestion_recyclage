@@ -2,113 +2,123 @@
 
 namespace App\Controller;
 
-use App\Entity\Publicite;
-use App\Form\PubliciteType;
-use App\Repository\PubliciteRepository;
+use App\Entity\Bac;
+use App\Form\BacType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Knp\Component\Pager\PaginatorInterface;
 
-/**
- * @Route("/Publicite")
- */
-class PubliciteController extends AbstractController
+class BacController extends AbstractController
 {
     /**
-     * @Route("/", name="product_index", methods={"GET"})
+     * @Route("/bac", name="app_bac")
      */
-    public function index(PubliciteRepository $productRepository): Response
+    public function index(): Response
     {
-        return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+        return $this->render('bac/index.html.twig', [
+            'controller_name' => 'BacController',
         ]);
     }
 
+
     /**
-     * @Route("/new", name="product_new", methods={"GET","POST"})
+     * @Route("/afficherbac", name="displaybac")
      */
-    public function new(Request $request): Response
+    public function afficherbac(PaginatorInterface $Paginator,Request $request): Response
     {
-        $product = new Publicite();
-        $form = $this->createForm(PubliciteType::class, $product);
-        $form->handleRequest($request);
+        $bacs= $this->getDoctrine()->getManager()->getRepository(Bac::class)->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file= $request->files->get('publicite')['image'];
+        $pagination = $Paginator->paginate(
+            $bacs, // données à paginer
+            $request->query->getInt('page', 1), // numéro de la page par défaut
+            4 // nombre d'éléments par page
+        );
 
-            $uploads_directory=$this->getParameter('uploads_directory');
-            $file_name=md5(uniqid())    . '.'   . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $file_name
-            );
-            $product->setImage($file_name);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('product_back_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('product/new.html.twig', [
-            'product' => $product,
-            'form' => $form->createView(),
+        return $this->render('bac/index.html.twig', [
+            'b'=>$pagination
         ]);
     }
 
+
+
     /**
-     * @Route("/{id}", name="product_show", methods={"GET"})
+     * @Route("/addBac", name="addBac")
      */
-    public function show(Publicite $product): Response
+    public function addBac(Request $request): Response
     {
-        return $this->render('product/show.html.twig', [
-            'product' => $product,
+
+       $Bac=new Bac();
+       $form=$this->createForm(BacType::class,$Bac);
+       $form->handleRequest($request);
+       if($form->isSubmitted() && $form->isValid()){
+
+         $em = $this->getDoctrine()->getManager();
+           $em->persist($Bac);
+           $em->flush();
+
+           return $this->redirectToRoute('displaybac');
+       }
+       else
+       return $this->render('bac/createBac.html.twig',['f'=>$form->createView()]);
+
+    }
+
+
+
+    /**
+     * @Route("/modifierBac/{id}", name="modifierBac")
+     */
+    public function modifierBac(Request $request,$id): Response
+    {
+
+       $bacs=$this->getDoctrine()->getManager()->getRepository(Bac::class)->find($id);
+       $form=$this->createForm(BacType::class,$bacs);
+       $form->handleRequest($request);
+       if($form->isSubmitted() && $form->isValid()){
+
+
+           $em = $this->getDoctrine()->getManager();
+
+           $em->flush();
+
+           return $this->redirectToRoute('displaybac');
+       }
+       else
+       return $this->render('bac/modifierbac.html.twig',['f'=>$form->createView()]);
+
+    }
+
+
+      /**
+     * @Route("/afficherbacfront", name="afficherbacfront")
+     */
+    public function afficherbacfront(): Response
+    {
+        $bacs= $this->getDoctrine()->getManager()->getRepository(Bac::class)->findAll();
+
+        return $this->render('bac/frontindex.html.twig', [
+            'b'=>$bacs
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Publicite $product): Response
-    {
-        $form = $this->createForm(PubliciteType::class, $product);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file= $request->files->get('publicite')['image'];
-
-            $uploads_directory=$this->getParameter('uploads_directory');
-            $file_name=md5(uniqid())    . '.'   . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $file_name
-            );
-            $product->setImage($file_name);
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('product_back_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('product/edit.html.twig', [
-            'product' => $product,
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
-     * @Route("/{id}", name="product_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Publicite $product): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($product);
-            $entityManager->flush();
-        }
+* @Route("/deletebac", name="deletebac")
+*/
+public function deleteBac(
+    Request $request
 
-        return $this->redirectToRoute('product_back_index', [], Response::HTTP_SEE_OTHER);
-    }
+){
+
+$bac=$this->getDoctrine()->getRepository(Bac::class)->findOneBy(array('id'=>$request->query->get("id")));
+$em=$this->getDoctrine()->getManager();
+$em->remove($bac);
+$em->flush();
+return new Response("success");
+
+}
 }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230212235609 extends AbstractMigration
+final class Version20230222014020 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20230212235609 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE bac (id INT AUTO_INCREMENT NOT NULL, reference INT NOT NULL, UNIQUE INDEX UNIQ_1C4FAC58AEA34913 (reference), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE signalisation (id INT AUTO_INCREMENT NOT NULL, description VARCHAR(255) NOT NULL, date_signal DATE NOT NULL, urlphoto VARCHAR(255) NOT NULL, ville VARCHAR(255) NOT NULL, region VARCHAR(255) NOT NULL, rue VARCHAR(255) NOT NULL, lat NUMERIC(25, 25) NOT NULL, lon NUMERIC(25, 25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE bac');
+        $this->addSql('DROP TABLE signalisation');
     }
 }

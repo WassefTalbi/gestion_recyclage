@@ -1,13 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'client/base.html.twig' %}
 
-{% block title %}Edit Signalisation{% endblock %}
+{% block title %}New Signalisation{% endblock %}
+{% block signal %}<a class="nav-link scrollto " href="{{path('app_signalisation_index')}}">Signalisation</a>{% endblock %}
+{% block main %}
 
-{% block body %}
     <h1>Edit Signalisation</h1>
 
     {{ include('signalisation/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_signalisation_index') }}">back to list</a>
 
-    {{ include('signalisation/_delete_form.html.twig') }}
+    
 {% endblock %}

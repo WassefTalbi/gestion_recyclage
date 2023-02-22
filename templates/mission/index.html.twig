@@ -23,7 +23,7 @@
                 <td>{{ mission.dateMission ? mission.dateMission|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_mission_show', {'id': mission.id}) }}"> <button class="btn btn-info">Details</button></a>
-                    <a href="{{path('app_mission_parametrage', {'id': mission.id})}} "><button class="btn btn-warning">paramétrage</button></a>
+                    <a href="{{path('app_mission_parametrage', {'id': mission.id})}} "><button class="btn btn-warning">Affecter</button></a>
                     <a href="{{ path('app_mission_edit', {'id': mission.id}) }}"><button class="btn btn-success">edite</button></a>
                     
                 </td>

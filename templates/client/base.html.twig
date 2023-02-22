@@ -329,7 +329,7 @@
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
         <div>
-        <button class="btn btn-info"><a href="{{path('app_signalisation_new')}}"> add signalisation</a></button>
+        <button class="btn btn-info mb-4"><a href="{{path('app_signalisation_new')}}"> add signalisation</a></button>
         </div>
         <div class="row" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-12 d-flex justify-content-center">
@@ -346,13 +346,13 @@
 
           <div class="col-lg-4 col-md-6 portfolio-item filter-card">
             <div class="portfolio-wrap">
-              <img src="{{ asset('uploads/camion_image/') ~ camion.urlphoto }}" class="img-fluid" alt="">
+              <img src="{{ asset('uploads/signal_image/') ~ signalisation.urlphoto }}" class="img-fluid" alt="">
               <div class="portfolio-info">
-                <h4>Card 2</h4>
-                <p>{{signalisation.description}}</p>
+                <h4>signalisation</h4>
+                <p>{{signalisation.description}} </p>
                 <div class="portfolio-links">
-                  <a href="{{asset('client/assets/img/portfolio/portfolio-4.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="{{ asset('uploads/signal_image/') ~ signalisation.urlphoto }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="  La signalisation des déchets dans la région de {{signalisation.region }} a été mise en place par la ville de {{signalisation.ville }} le {{ signalisation.dateSignal ? signalisation.dateSignal|date('Y-m-d') : '' }}. Sur la {{signalisation.rue }} "><i class="bx bx-plus"></i></a>
+                  <a href="{{ path('app_signalisation_edit', {'id': signalisation.id} )}}" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>

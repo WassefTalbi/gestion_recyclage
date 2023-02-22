@@ -22,7 +22,7 @@ class Mission
     #[Assert\Length(min: 20, minMessage: '20 caractere au minimum')]
     private  $description;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: "datetime")]
     #[Assert\NotBlank(message: 'Date mission is required')]
     #[Assert\GreaterThanOrEqual("today", message: "Date mission cannot be in the past")]
     private  $dateMission;
@@ -30,8 +30,8 @@ class Mission
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'missions')]
     private  $collecteurs;
 
-    #[ORM\ManyToOne(targetEntity:Camion::class,inversedBy: 'missions')]
-    private  $camion ;
+    #[ORM\ManyToOne(targetEntity: Camion::class, inversedBy: 'missions')]
+    private  $camion;
 
     public function __construct()
     {

@@ -3,7 +3,8 @@
 {% block title %}New Signalisation{% endblock %}
 {% block signal %}<a class="nav-link scrollto " href="{{path('app_signalisation_index')}}">Signalisation</a>{% endblock %}
 {% block main %}
- <a href="{{ path('app_signalisation_index') }}">back to list</a>
+
+  
     <h1>Create new Signalisation</h1>
     
     {{ include('signalisation/_form.html.twig') }}

@@ -3,6 +3,9 @@
 {% block title %}Mission{% endblock %}
 
 {% block dashboard %}
+<div class="container">
+  <div>   <i class="bi bi-arrow-left-square-fill"></i><a href="{{ path('app_mission_index') }}">Liste Mission</a></div>
+
     <h1>Mission</h1>
 
     <table class="table">
@@ -19,9 +22,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_mission_index') }}">back to list</a>
+   
 
-    <a href="{{ path('app_mission_edit', {'id': mission.id}) }}">edit</a>
+    <a href="{{ path('app_mission_edit', {'id': mission.id}) }}"><button class="btn btn-success btn-sm mt-3 "> edite</button></a>
+     <a href="{{ path('app_camion_delete', {'id': mission.id}) }}"><button class="btn btn-danger btn-sm mt-3 "> delete</button></a>    
 
-    {{ include('mission/_delete_form.html.twig') }}
+
+</div>
 {% endblock %}

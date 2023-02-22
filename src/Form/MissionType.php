@@ -16,9 +16,9 @@ class MissionType extends AbstractType
         $builder
             ->add('description')
             ->add('dateMission', DateType::class, [
-                'widget' => 'single_text',
+
                 'format' => 'yyyy-MM-dd',
-               
+
             ])
             ->add('Ajouter', SubmitType::class);
     }

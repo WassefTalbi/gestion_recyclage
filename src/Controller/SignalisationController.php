@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Signalisation;
 use App\Form\SignalisationType;
+use App\Repository\AdresseRepository;
 use App\Repository\SignalisationRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,20 +23,39 @@ class SignalisationController extends AbstractController
         ]);
     }
     #[Route('/all', name: 'app_signalisation_allSignalisation', methods: ['GET'])]
-    public function getAll(): Response
+    public function getAll(SignalisationRepository $signalisationRepository): Response
     {
-        return $this->render('signalisation/allSignalisation.html.twig');
+        return $this->render('signalisation/allSignalisation.html.twig', [
+            'signalisations' => $signalisationRepository->findAll(),
+        ]);
     }
 
     #[Route('/new', name: 'app_signalisation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SignalisationRepository $signalisationRepository): Response
+    public function new(Request $request,  SignalisationRepository $signalisationRepository): Response
     {
         $signalisation = new Signalisation();
         $form = $this->createForm(SignalisationType::class, $signalisation);
+
+
         $form->handleRequest($request);
- 
+
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $latitude = $request->request->get('latitude');
+
+            $longitude = $request->request->get('longitude');
+
+            $uploadFile = $form['urlphoto']->getData();
+            $filename = md5(uniqid()) . '.' . $uploadFile->guessExtension(); //cryptage d image
+            $uploadFile->move($this->getParameter('kernel.project_dir') . '/public/uploads/signal_image', $filename);
+            $signalisation->setUrlphoto($filename);
+            $signalisation->setDateSignal(new DateTime());
+
+            $signalisation->setLat($latitude);
+            $signalisation->setLon($longitude);
+
             $signalisationRepository->save($signalisation, true);
+
 
             return $this->redirectToRoute('app_signalisation_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -49,6 +70,14 @@ class SignalisationController extends AbstractController
     public function show(Signalisation $signalisation): Response
     {
         return $this->render('signalisation/show.html.twig', [
+            'signalisation' => $signalisation,
+        ]);
+    }
+
+    #[Route('/{id}/traiter', name: 'app_signalisation_traiter', methods: ['GET'])]
+    public function traiter(Signalisation $signalisation): Response
+    {
+        return $this->render('signalisation/traiter.html.twig', [
             'signalisation' => $signalisation,
         ]);
     }

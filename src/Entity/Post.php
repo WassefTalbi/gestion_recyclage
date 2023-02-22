@@ -74,6 +74,11 @@ class Post
      */
     private $idUser;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="post")
+     */
+    private $commentaires;
+
     public function getIdPost(): ?int
     {
         return $this->idPost;
@@ -153,3 +158,4 @@ class Post
 
 
 }
+

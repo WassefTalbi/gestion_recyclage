@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Commentaire index{% endblock %}
+{% block title %}Commentaire list{% endblock %}
 
 {% block body %}
 
@@ -9,7 +9,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>IdComntr</th>
+               
                 <th>Contenu</th>
                 <th>Date</th>
                 <th>actions</th>
@@ -18,7 +18,7 @@
         <tbody>
         {% for commentaire in commentaires %}
             <tr>
-                <td>{{ commentaire.idComntr }}</td>
+                
                 <td>{{ commentaire.contenu }}</td>
                 <td>{{ commentaire.date ? commentaire.date|date('Y-m-d') : '' }}</td>
                 <td>

@@ -1,43 +1,49 @@
+
 {% extends 'client/base.html.twig' %}
 
 {% block title %}Post{% endblock %}
 
 {% block body %}
-    <h1>Post</h1>
+<div style = "position:relative; left:200px; top:5px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ post.titre }}</h1>
+            </div>
+        </div>
 
-<div style = "position:relative; left:350px; top:200px;">
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>IdPost</th>
-                <td>{{ post.idPost }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ post.description }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ post.date ? post.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UrlImg</th>
-                <td><div style = "position:relative; left:0px;"  class="zoom-in-out-box"><img src="{{ asset('uploads/' ~post.urlImg) }}" style=" width:500px; height:350px; " alt=""/></div></td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ post.titre }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ post.active }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('uploads/' ~post.urlImg) }}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ post.titre }}</h4>
+                        <p class="card-text">{{ post.description }}</p>
+                    </div>
+                </div>
+            </div>
 
-    <a href="{{ path('app_post_front') }}">back to list</a>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Post details</h4>
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Date</th>
+                                    <td>{{ post.date ? post.date|date('Y-m-d') : '' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-    <a href="{{ path('app_post_editfront', {'idPost': post.idPost}) }}">edit</a>
-
-    {{ include('post/_deletef_form.html.twig') }}
+                    <div class="card-footer text-center">
+                        <a href="{{ path('app_post_editfront', {'idPost': post.idPost}) }}" class="btn btn-primary">Edit</a>
+                        {{ include('post/_deletef_form.html.twig') }}
+                        <a href="{{ path('app_post_front') }}" class="btn btn-secondary">Back to list</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

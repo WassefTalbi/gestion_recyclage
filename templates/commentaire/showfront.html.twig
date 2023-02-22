@@ -3,6 +3,8 @@
 {% block title %}Commentaire{% endblock %}
 
 {% block body %}
+<div style="position:relative; left:350px; top:20px; background-color:#66CDAA; padding:20px;">
+
     <h1>Commentaire</h1>
 
     <table class="table">
@@ -22,9 +24,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_commentaire_indexfront') }}">back to list</a>
+    <a href="{{ path('app_commentaire_indexfront') }}" class="btn btn-secondary">back to list</a>
 
-    <a href="{{ path('app_commentaire_editfront', {'idComntr': commentaire.idComntr}) }}">edit</a>
+    <a href="{{ path('app_commentaire_editfront', {'idComntr': commentaire.idComntr}) }}" class="btn btn-primary">edit</a>
 
     {{ include('commentaire/_delete_form.html.twig') }}
+</div>
 {% endblock %}

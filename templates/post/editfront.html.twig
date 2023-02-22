@@ -3,13 +3,19 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block body %}
+<div style="position:relative; left:350px; top:20px; background-color:#66CDAA; padding:20px;">
 
-<div style = "position:relative; left:350px; top:20px;">
-    <h1>Edit Post</h1>
 
-    {{ include('post/_form.html.twig', {'button_label': 'Update'}) }}
+<div style="background-color: #c5e1a5; bg-success">
+    <div style="text-align: center;">
+        <h1>Edit Post</h1>
+    </div>
 
-    <a href="{{ path('app_post_front') }}">back to list</a>
-
-    {{ include('post/_delete_form.html.twig') }}
+    <div style="max-width: 500px; margin: auto;">
+        {{ include('post/_form.html.twig', {'button_label': 'Update'}) }}
+        <br>
+        <a href="{{ path('app_post_front') }}" class="btn btn-secondary">Back to List</a>
+        {{ include('post/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

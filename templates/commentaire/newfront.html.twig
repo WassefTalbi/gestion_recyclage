@@ -1,14 +1,33 @@
+
 {% extends 'client/base.html.twig' %}
 
-{% block title %}New Commentaire{% endblock %}
+{% block title %}Nouveau commentaire{% endblock %}
 
 {% block body %}
+<div style = "position:relative; left:250px; top:20px;">
 
-<div style = "position:relative; left:200px; top:70px;">
-    <h1>Create new Commentaire</h1>
+    <div class="container-fluid py-5 bg-success">
+        <div class="container">
+            <h1 class="text-white mb-5">Ajouter un nouveau commentaire</h1>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'needs-validation'}}) }}
+                                {{ include('commentaire/_form.html.twig') }}
+                                
+                                <div class="d-flex justify-content-between mt-3">
+                                    <a href="{{ path('app_post_front') }}" class="btn btn-secondary">Retour</a>
+                                    <a href="{{ path('app_commentaire_indexfront') }}" class="btn btn-success">Ajouter</a>
+                                 
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
-{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
-    {{ include('commentaire/_form.html.twig') }}
-
-    <a href="{{ path('app_post_front') }}">back to list</a>
 {% endblock %}

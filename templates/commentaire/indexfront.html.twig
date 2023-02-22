@@ -3,13 +3,15 @@
 {% block title %}Commentaire index{% endblock %}
 
 {% block body %}
-<div style = "position:relative; left:350px; top:70px;">
+<div style = "position:relative; left:350px; top:20px;">
+
+<div class="container" style="background-color: #66CDAA; padding: 30px;">
     <h1>Commentaire index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>IdComntr</th>
+               
                 <th>Contenu</th>
                 <th>Date</th>
                 <th>actions</th>
@@ -18,12 +20,12 @@
         <tbody>
         {% for commentaire in commentaires %}
             <tr>
-                <td>{{ commentaire.idComntr }}</td>
+               
                 <td>{{ commentaire.contenu }}</td>
                 <td>{{ commentaire.date ? commentaire.date|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_commentaire_showfront', {'idComntr': commentaire.idComntr}) }}">show</a>
-                    <a href="{{ path('app_commentaire_editfront', {'idComntr': commentaire.idComntr}) }}">edit</a>
+                    <a class="btn btn-success" href="{{ path('app_commentaire_showfront', {'idComntr': commentaire.idComntr}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_commentaire_editfront', {'idComntr': commentaire.idComntr}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -34,5 +36,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_commentaire_newfront') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('app_commentaire_newfront') }}">Create new</a>
+</div>
 {% endblock %}

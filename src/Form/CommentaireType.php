@@ -15,10 +15,10 @@ class CommentaireType extends AbstractType
     {
         $builder
             ->add('contenu')
-            ->add('date')
             ->add('idpost',EntityType::class,['class'=> Post::class,
            'choice_label'=>'titre',
-           'label'=>'titre'])
+           'label'=>'titre de la poste'])
+           ->add('date')
         ;
     }
 

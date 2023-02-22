@@ -77,6 +77,7 @@ class PostController extends AbstractController
     #[Route('/newfront', name: 'app_post_newfront', methods: ['GET', 'POST'])]
     public function front(Request $request, EntityManagerInterface $entityManager): Response
     {
+        
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);

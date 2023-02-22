@@ -1,0 +1,34 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Charite{% endblock %}
+
+{% block body %}
+    <h1>Charite</h1>
+<div style = "position:relative; left:500px; top:200px;">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdCharite</th>
+                <td>{{ charite.idCharite }}</td>
+            </tr>
+            <tr>
+                <th>NomCharite</th>
+                <td>{{ charite.nomCharite }}</td>
+            </tr>
+            <tr>
+                <th>LieuCharite</th>
+                <td>{{ charite.lieuCharite }}</td>
+            </tr>
+            <tr>
+                <th>TypeCharite</th>
+                <td>{{ charite.typeCharite }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_charite_index') }}">back to list</a>
+
+    
+
+  
+{% endblock %}

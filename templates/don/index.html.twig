@@ -1,0 +1,36 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Don index{% endblock %}
+
+{% block body %}
+    <h1>Don index</h1>
+<div style = "position:relative; left:400px; top:200px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdDons</th>
+                <th>TypeDons</th>
+                <th>DescriptionDons</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for don in dons %}
+            <tr>
+                <td>{{ don.idDons }}</td>
+                <td>{{ don.typeDons }}</td>
+                <td>{{ don.descriptionDons }}</td>
+                <td>
+                    <a href="{{ path('app_don_show', {'idDons': don.idDons}) }}">show</a>
+                    <a href="{{ path('app_don_edit', {'idDons': don.idDons}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

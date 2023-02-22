@@ -1,0 +1,12 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}New Don{% endblock %}
+
+{% block body %}
+    <h1>Create new Don</h1>
+<div style = "position:relative; left:500px; top:200px;">
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    {{ include('don/_form.html.twig') }}
+
+    <a href="{{ path('app_don_indexf') }}">back to list</a>
+{% endblock %}

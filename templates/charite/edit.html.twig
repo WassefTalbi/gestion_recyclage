@@ -1,0 +1,13 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Edit Charite{% endblock %}
+
+{% block body %}
+    <h1>Edit Charite</h1>
+<div style = "position:relative; left:500px; top:200px;">
+    {{ include('charite/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_charite_index') }}">back to list</a>
+
+    {{ include('charite/_delete_form.html.twig') }}
+{% endblock %}

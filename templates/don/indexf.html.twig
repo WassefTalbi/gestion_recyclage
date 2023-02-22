@@ -1,0 +1,36 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Don index{% endblock %}
+
+{% block body %}
+    <h1>Don index</h1>
+<div style = "position:relative; left:30px; top:200px;">
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>TypeDons</th>
+                <th>DescriptionDons</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for don in dons %}
+            <tr>
+              
+                <td>{{ don.typeDons }}</td>
+                <td>{{ don.descriptionDons }}</td>
+                <td>
+                    <a href="{{ path('app_don_showf', {'idDons': don.idDons}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_don_newf') }}">Create new</a>
+{% endblock %}

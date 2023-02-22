@@ -1,0 +1,11 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Charite{% endblock %}
+
+{% block body %}
+    <h1>Create new Charite</h1>
+<div style = "position:relative; left:500px; top:200px;">
+    {{ include('charite/_form.html.twig') }}
+
+    <a href="{{ path('app_charite_index') }}">back to list</a>
+{% endblock %}

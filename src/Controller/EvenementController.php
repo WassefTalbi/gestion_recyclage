@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Evenement;
+use App\Entity\Ticket;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,7 @@ class EvenementController extends AbstractController
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
+    
     #[Route('/front', name: 'app_evenement_indexx', methods: ['GET'])]
     public function indexFront(EvenementRepository $evenementRepository): Response
     {
@@ -124,5 +126,17 @@ class EvenementController extends AbstractController
         }
 
         return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/tickets', name: 'app_evenement_hazem', methods: ['GET'])]
+    public function tickets(Evenement $evenement)
+    {
+        $tickets = $this->getDoctrine()->getRepository(Ticket::class)->findBy([
+            'Evenement' => $evenement,
+        ]);
+
+        return $this->render('admin/tickets.html.twig', [
+            'evenement' => $evenement,
+            'tickets' => $tickets,
+        ]);
     }
 }

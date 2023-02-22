@@ -11,12 +11,40 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EvenementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $villes = [
+            'Ariana',
+            'Beja',
+            'Ben Arous',
+            'Bizerte',
+            'Gabes',
+            'Gafsa',
+            'Jendouba',
+            'Kairouan',
+            'Kasserine',
+            'Kebili',
+            'La Manouba',
+            'Le Kef',
+            'Mahdia',
+            'Medenine',
+            'Monastir',
+            'Nabeul',
+            'Sfax',
+            'Sidi Bouzid',
+            'Siliana',
+            'Sousse',
+            'Tataouine',
+            'Tozeur',
+            'Tunis',
+            'Zaghouan',
+        ];
+    
         $builder
         ->add('Nom', TextType::class, [
             'constraints' => [
@@ -61,6 +89,17 @@ class EvenementType extends AbstractType
                     ])
                 ]
             ])
+            ->add('Adresse', ChoiceType::class, [
+                'choices' => array_combine($villes, $villes),
+                'label' => 'Ville',
+                'required' => true,
+                'placeholder' => 'Choisir une ville',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('Prix')
+            ->add('NombrePlace')
             ->add('Save',SubmitType::Class)
         ;
     }

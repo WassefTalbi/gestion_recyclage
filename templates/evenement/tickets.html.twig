@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ evenement.nom }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Date de création</th>
+                <th>Date de création</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.prix }}</td>
+                    <td>{{ ticket.quantite }}</td>
+                    <td>{{ ticket.createdAt|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ ticket.type}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

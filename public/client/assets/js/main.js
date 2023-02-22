@@ -4,6 +4,11 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+document.getElementById('mon-bouton').addEventListener('click', function() {
+  
+alert("hello");
+  
+});
 (function() {
   "use strict";
 
@@ -248,6 +253,7 @@
       mirror: false
     })
   });
+  
 
   /**
    * Initiate Pure Counter 

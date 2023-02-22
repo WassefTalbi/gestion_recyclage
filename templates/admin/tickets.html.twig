@@ -392,13 +392,13 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/evenement" class="active">
+            <a href="/evenement" >
               <i class="bi bi-circle"></i><span>Event Tables</span>
             </a>
           </li>
           <li>
-            <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>Data Tables</span>
+            <a href="tables-data.html" class="active">
+              <i class="bi bi-circle"></i><span>Tickets Tables</span>
             </a>
           </li>
         </ul>
@@ -524,51 +524,29 @@
 
           <div class="card">
             <div class="card-body">
-              <h1>Evenement index</h1>
-               {% for message in app.session.flashbag.get('error') %}
-               <div class="alert alert-danger">{{ message }}</div>
-               {% endfor %}
+               <h1>Evenement : {{ evenement.nom }}</h1>
+               <h3>il reste encore  {{ evenement.nombrePlace}} place disponible(s)</h3>
 
-               <table class="table">
-                <thead>
-                <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Type</th>
-                <th>Adresse</th>
-                <th>Date</th>
-                <th>Nombre de place disponible</th>
-                <th>actions</th>
-               </tr>
-               </thead>
-             <tbody>
-               {% for evenement in evenements %}
-             <tr>
-                <td>{{ evenement.id }}</td>
-                <td>{{ evenement.Nom }}</td>
-                <td class=" att">{{ evenement.description }}</td>
-                <td>  <div > <img  class ="logoo" src="../images/{{evenement.imageName}}"</div></td>
-                <td>{{ evenement.type }}</td>
-                  <td>{{ evenement.Adresse}}</td>
-                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
-                <td>{{ evenement.nombrePlace  }}</td>
-
-                <td>
-                    <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
-                    <a href="{{ path('app_ticket_new', {'evenementid': evenement.id}) }}">tiket</a>
-                    <a href="{{ path('app_evenement_hazem', {'id': evenement.id}) }}">AfficherTicket</a>
-                </td>
-            </tr>
-              {% else %}
+    <table class="table">
+        <thead>
             <tr>
-                <td colspan="7">no records found</td>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Date de création</th>
+                <th>Type de Ticket</th>
             </tr>
-             {% endfor %}
-             </tbody>
-             </table>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.prix }}</td>
+                    <td>{{ ticket.quantite }}</td>
+                    <td>{{ ticket.createdAt|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ ticket.type}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <a href="{{ path('app_evenement_new') }}">Create new</a>
               <!-- End Default Table Example -->

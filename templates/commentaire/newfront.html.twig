@@ -3,9 +3,12 @@
 {% block title %}New Commentaire{% endblock %}
 
 {% block body %}
+
+<div style = "position:relative; left:200px; top:70px;">
     <h1>Create new Commentaire</h1>
+    
 {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
     {{ include('commentaire/_form.html.twig') }}
 
-    <a href="{{ path('app_commentaire_indexfront') }}">back to list</a>
+    <a href="{{ path('app_post_front') }}">back to list</a>
 {% endblock %}

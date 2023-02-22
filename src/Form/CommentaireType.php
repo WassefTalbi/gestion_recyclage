@@ -18,7 +18,7 @@ class CommentaireType extends AbstractType
             ->add('date')
             ->add('idpost',EntityType::class,['class'=> Post::class,
            'choice_label'=>'titre',
-           'label'=>'idpost'])
+           'label'=>'titre'])
         ;
     }
 

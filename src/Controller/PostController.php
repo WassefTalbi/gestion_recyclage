@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+
 
 #[Route('/post')]
 class PostController extends AbstractController
@@ -39,15 +42,25 @@ class PostController extends AbstractController
     }
     
 
-
+/*
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $post = new Post();
+        $user = $entityManager
+        ->getRepository(User::class)
+        ->findById(54);
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {*/
+           
+           /*   $post->setDate(new \DateTime());*/
+        
+           /* $post->setIdUser($user);
+        
+
+
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -58,7 +71,7 @@ class PostController extends AbstractController
             'post' => $post,
             'form' => $form,
         ]);
-    }
+    }*/
 
 
     #[Route('/newfront', name: 'app_post_newfront', methods: ['GET', 'POST'])]
@@ -69,6 +82,15 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadFile = $form['urlImg']->getData();
+            $filename = md5(uniqid()) . '.' . $uploadFile->guessExtension(); //cryptage d image
+
+
+            $uploadFile->move($this->getParameter('kernel.project_dir') . '/public/uploads', $filename);
+            $post->setUrlImg($filename);
+            
+             $post->setDate(new \DateTime());
+        
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -89,7 +111,7 @@ class PostController extends AbstractController
             'post' => $post,
         ]);
     }
-    #[Route('/{idPost}front', name: 'app_post_showfront', methods: ['GET'])]
+    #[Route('/{idPost}/front', name: 'app_post_showfront', methods: ['GET'])]
     public function showf(Post $post): Response
     {
         return $this->render('post/showfront.html.twig', [
@@ -143,5 +165,18 @@ class PostController extends AbstractController
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
     }
    
+    #[Route('/{idPost}/f', name: 'app_post_deletef', methods: ['POST'])]
+    public function deletef(Request $request, Post $post, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$post->getIdPost(), $request->request->get('_token'))) {
+            $entityManager->remove($post);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_post_front', [], Response::HTTP_SEE_OTHER);
+    }
+   
     
 }
+
+

@@ -4,8 +4,8 @@
 
 {% block body %}
     
-<div style = "position:relative; left:350px; top:200px;">
-    <h1>Post index</h1>
+<div style = "position:relative; left:70px; top:20px;">
+    <h1>posts list</h1>
     
 
     <table class="table">
@@ -26,7 +26,7 @@
                 <td>{{ post.idPost }}</td>
                 <td>{{ post.description }}</td>
                 <td>{{ post.date ? post.date|date('Y-m-d') : '' }}</td>
-                <td>{{ post.urlImg }}</td>
+                <td><div style = "position:relative; left:0px;"  class="zoom-in-out-box"><img src="{{ asset('uploads/' ~post.urlImg) }}" style=" width:500px; height:350px; " alt=""/></div></td>
                 <td>{{ post.titre }}</td>
                 <td>{{ post.active }}</td>
                 <td>
@@ -42,5 +42,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_post_new') }}">Create new</a>
+   {# <a href="{{ path('app_post_new') }}">Create new</a>#}
 {% endblock %}

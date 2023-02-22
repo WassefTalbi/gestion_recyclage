@@ -103,12 +103,12 @@ class Post
         return $this;
     }
 
-    public function getUrlImg(): ?string
+    public function getUrlImg()
     {
         return $this->urlImg;
     }
 
-    public function setUrlImg(string $urlImg): self
+    public function setUrlImg($urlImg)
     {
         $this->urlImg = $urlImg;
 

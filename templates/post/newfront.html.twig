@@ -3,6 +3,7 @@
 {% block title %}New Post{% endblock %}
 
 {% block body %}
+<div style = "position:relative; left:350px; top:0px;">
     <h1>Create new Post</h1>
 {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
     {{ include('post/_form.html.twig') }}

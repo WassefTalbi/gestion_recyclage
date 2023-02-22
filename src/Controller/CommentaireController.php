@@ -65,7 +65,7 @@ class CommentaireController extends AbstractController
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_commentaire_indexfront', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_post_front', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('commentaire/newfront.html.twig', [

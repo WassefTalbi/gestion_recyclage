@@ -43,9 +43,19 @@ class TicketController extends AbstractController
             $ticket->setEvenement($evenementid);
             $ticket->setPrix($evenement->getPrix());
             $ticket->setCreatedAt(new DateTimeImmutable('now'));
+            if ( $ticket->getType()=="Enfant")
+            {
+               $m= $ticket->getPrix()-50;
+                $ticket->setPrix($m);  
+            }
+            if ( $ticket->getType()=="Etudiant")
+            {
+               $m= $ticket->getPrix()-30;
+                $ticket->setPrix($m);  
+            }
             if ($nbrplacerestant < 0) {
                 $this->addFlash('error', 'Désolé, les tickets pour cet événement sont épuisés.');
-                return $this->redirectToRoute('app_evenement_index', ['id' => $evenement->getId()]);
+                return $this->redirectToRoute('app_evenement_indexx', ['/id' => $evenement->getId()]);
             }
             for ($i=0; $i<$quantite; $i++)
             { 
@@ -55,9 +65,10 @@ class TicketController extends AbstractController
                 $ticketRepository->save($newTicket, true);
             }
 
-            
+            $id = $ticket->getId();
+           dump($ticket);
+            return $this->redirectToRoute('app_evenement_indexx', ['id' => $ticket->getId()]);
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('client/ticket.html.twig', [
@@ -66,10 +77,10 @@ class TicketController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'] , requirements: ['id' => '[^/]+'])]
     public function show(Ticket $ticket): Response
     {
-        return $this->render('ticket/show.html.twig', [
+        return $this->render('client/ticketdetail.html.twig', [
             'ticket' => $ticket,
         ]);
     }

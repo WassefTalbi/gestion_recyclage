@@ -38,6 +38,22 @@ class EvenementRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function recherche($nom): array
+    {
+        return $this->createQueryBuilder('b')
+           ->select('b')
+           ->andWhere('b.Nom = :val')
+           ->setParameter('val', $nom)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function TriparDate(): array
+    {return $this->createQueryBuilder('s')
+        ->orderBy('s.date', 'ASC')
+        ->getQuery()
+        ->getResult() ;
+    }
 
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects

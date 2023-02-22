@@ -12,6 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EvenementType extends AbstractType
@@ -67,10 +71,24 @@ class EvenementType extends AbstractType
                     ])
                 ]
             ])
-            ->add('imageFile', FileType::class, [
-                'label' => 'Image (JPG or PNG file)',
-              
-                'required' => false])
+              ->add('imageFile', FileType::class, [
+                'label' => 'Photo',
+                'required' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez télécharger une image'
+                    ]),
+                    new Image([
+                        'maxSize' => '2M',
+                        'maxSizeMessage' => 'La taille de l\'image ne doit pas dépasser 2 Mo',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Le format de l\'image doit être JPEG ou PNG'
+                    ])
+                ]
+            ])
             ->add('type', TextType::class, [
                 'label' => 'Type',
                 'required' => true,
@@ -98,8 +116,27 @@ class EvenementType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('Prix')
-            ->add('NombrePlace')
+            ->add('prix', MoneyType::class, [
+                'currency' => 'TND',
+                'constraints' => [
+                    new Assert\Regex([
+                        'pattern' => '/^[0-9]+$/',
+                        'message' => 'Le prix ne doit contenir que des chiffres'
+                    ])
+                ]
+            ])
+                    
+            ->add('NombrePlace', IntegerType::class, [
+                'constraints' => [
+                    new Positive([
+                        'message' => 'Le nombre de places doit être un entier positif'
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^\d+$/',
+                        'message' => 'Le nombre de places doit contenir uniquement des chiffres'
+                    ])
+                ]
+            ])
             ->add('Save',SubmitType::Class)
         ;
     }

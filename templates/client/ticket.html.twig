@@ -100,7 +100,8 @@
     </section><!-- End Breadcrumbs -->
 
     <!-- ======= Portfolio Details Section ======= -->
-      <h1 class="container">Reserver Votre Tickes ♥ </h1>
+    <div class="container">
+      <h1 class="container">Reserver Votre Ticket </h1>
       
               <div class="container">
                 {{ include('ticket/_form.html.twig') }}
@@ -109,8 +110,8 @@
 
    
 
-    <a href="{{ path('app_ticket_index') }}">back to list</a>
-
+    <button class=" btn-primary btn" href="{{ path('app_ticket_index') }}">back to list</button>
+</div>
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

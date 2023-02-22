@@ -22,6 +22,20 @@ class EvenementController extends AbstractController
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
+    #[Route('/recherche', name: 'app_evenement_recherche', methods: ['GET'])]
+    public function recherche(EvenementRepository $evenementRepository,Request $req ): Response
+    { $nom=$req->get('nom') ;
+        return $this->render('admin/affich.html.twig', [
+            'evenements' => $evenementRepository->recherche($nom),
+        ]);
+    }
+    #[Route('/trie', name: 'trie', methods: ['GET'])]
+    public function trie(EvenementRepository $evenementRepository,Request $req ): Response
+    { 
+        return $this->render('admin/index.html.twig', [
+            'evenements' => $evenementRepository->TriparDate(),
+        ]);
+    }
     
     #[Route('/front', name: 'app_evenement_indexx', methods: ['GET'])]
     public function indexFront(EvenementRepository $evenementRepository): Response

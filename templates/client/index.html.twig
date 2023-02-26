@@ -89,6 +89,31 @@
     <!-- ======= Breadcrumbs ======= -->
     <section class="breadcrumbs">
       <div class="container">
+      <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
         <div class="d-flex justify-content-between align-items-center">
           <!-- ======= Portfolio Section ======= -->
@@ -114,7 +139,7 @@
             </ul>
           </div>
         </div>
-
+           
         <div class="row portfolio-container" >
            {% for evenement in evenements %}  
           <div class="col-lg-4 col-md-6 portfolio-item filter-app">
@@ -125,7 +150,7 @@
                 <p>{{evenement.description}}</p>
                 <div class="portfolio-links">
                   <a href="{{ path('app_ticket_new', {'evenementid': evenement.id}) }}" <i class="bx bx-plus"></i></a>
-
+                      {{ include('client/modal.html.twig') }}
                   <a href="{{ path('app_evenement_showx', {'id': evenement.id}) }}" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -145,7 +170,7 @@
      
     </section><!-- End Breadcrumbs -->
 
-    
+  
 
   </main><!-- End #main -->
 
@@ -226,8 +251,21 @@
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+{% block javasctips %}
+ <script src="{{asset('client/assets\vendor/bootstrap/js/jquery-3.5.1.slim.min.js')}}"></script>
 
- 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"></script>
+
+  <!-- Script pour initialiser le modal -->
+  <script>
+  console.log('Initialisation du modal');
+  $(document).ready(function() {
+    $('#exampleModal').modal({
+      show: false
+    });
+  });
+</script>
   <!-- Vendor JS Files -->
   <script src="{{asset('client/assets/vendor/purecounter/purecounter_vanilla.js')}}"></script>
   <script src="{{asset('client/assets/vendor/aos/aos.js')}}"></script>
@@ -236,12 +274,12 @@
   <script src="{{asset('client/assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
   <script src="{{asset('client/assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
   <script src="{{asset('client/assets/vendor/php-email-form/validate.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
   <!-- Template Main JS File -->
   <script src="{{asset('client/assets/js/main.js')}}"></script>
 
-
+{% endblock %}
 </body>
 
 </html>

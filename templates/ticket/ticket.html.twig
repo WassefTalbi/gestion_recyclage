@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ticket Purchase Confirmation</title>
+    <style>
+      /* Reset default styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Set font and color */
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: #333;
+      }
+
+      /* Header */
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      /* Ticket details */
+      .ticket-details {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+      }
+
+      .ticket-details h2 {
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+
+      .ticket-details ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .ticket-details li {
+        margin-bottom: 5px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #f9f9f9;
+        color: #333;
+        padding: 20px;
+        text-align: center;
+      }
+
+      footer p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Ticket Purchase Confirmation</h1>
+    </header>
+
+    <div class="ticket-details">
+    <p> Dear {{user }} , </p>
+      <h2>Thank you for your ticket purchase! Here are your ticket details:</h2>
+
+      <ul>
+        <li><strong>ID:</strong> {{ id }}</li>
+        <li><strong>Prix:</strong> {{ prix }}</li>
+        <li><strong>Quantite:</strong> {{ quantite }}</li>
+        <li><strong>Type:</strong> {{ type }}</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Thanks again for your purchase. We hope you enjoy the event!</p>
+      <p>Sincerely,<br>Recycle Tunisia</p>
+    </footer>
+  </body>
+</html>

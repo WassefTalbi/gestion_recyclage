@@ -326,9 +326,14 @@
           <div class="card">
             <div class="card-body">
               <h1>Evenement index</h1>
-              <form action="{{path('app_evenement_recherche')}}">
+              <div class="search-bar">
+              <form class="search-form d-flex align-items-center" action="{{path('app_evenement_recherche')}}">
                <input type="text" placeholder="search via niveau" name="nom">
               <input type="submit" value="search">
+              </div>
+              
+      
+    </div><!-- End Search Bar -->
               <a href="{{ path('trie') }}">trie par date</a>
             </form>
                {% for message in app.session.flashbag.get('error') %}

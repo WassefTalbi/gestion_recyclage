@@ -10,12 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Swift_Message;
+use Swift_Mailer;
+use Swift_SmtpTransport;
 use DateTimeImmutable;
 use App\Repository\EvenementRepository;
-
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 #[Route('/ticket')]
 class TicketController extends AbstractController
 {
+    
     #[Route('/', name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
@@ -25,14 +31,14 @@ class TicketController extends AbstractController
     }
 
     #[Route('/{evenementid}/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, Evenement $evenementid,TicketRepository $ticketRepository,EvenementRepository $evenementrepository): Response
+    public function new(Request $request, Evenement $evenementid,TicketRepository $ticketRepository,EvenementRepository $evenementrepository,MailerInterface $mailer): Response
     {
         $ticket = new Ticket();
        
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
         
-
+        $evenement = $evenementrepository->find($evenementid);
         if ($form->isSubmitted() && $form->isValid()) {
             
             $evenement = $evenementrepository->find($evenementid);
@@ -64,16 +70,50 @@ class TicketController extends AbstractController
                 
                 $ticketRepository->save($newTicket, true);
             }
-
+            $emailBody = sprintf('Thank you for creating a new ticket with the following details:%sTicket ID: %d%sTicket Price: %s%sTicket Quantity: %s ',
+    PHP_EOL,
+    $ticket->getId(),
+    PHP_EOL,
+    $ticket->getPrix(),
+    PHP_EOL,
+    $ticket->getQuantite()
+   
+);
+            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+            ->setUsername('recycle.tunisia')
+            ->setPassword('ztntffukvpwraygm');
+    
+        $mailer = new Swift_Mailer($transport);
+    
+        $message = (new Swift_Message('Wonderful Subject'))
+            ->setFrom(['recycle.tunisia@gmail.com' => 'Recycle tunisia'])
+            ->setTo([$ticket->getTicket()->getEmail()])
+            ->setBody(
+                $this->renderView(
+                    'ticket/ticket.html.twig',
+                    [
+                        'id' => $ticket->getId(),
+                        'prix' => $ticket->getPrix(),
+                        'quantite' => $ticket->getQuantite(),
+                        'type' => $ticket->getType(),
+                        'user' =>$ticket->getTicket()->getName(),
+                    ]
+                ),
+                'text/html'
+            );
+    
+        $mailer->send($message);
             $id = $ticket->getId();
-           dump($ticket);
+            dump($ticket);
             return $this->redirectToRoute('app_evenement_indexx', ['id' => $ticket->getId()]);
 
         }
+       
 
         return $this->renderForm('client/ticket.html.twig', [
             'ticket' => $ticket,
             'form' => $form,
+            'evenement'=> $evenement,
         ]);
     }
 
@@ -100,6 +140,7 @@ class TicketController extends AbstractController
         return $this->renderForm('ticket/edit.html.twig', [
             'ticket' => $ticket,
             'form' => $form,
+            
         ]);
     }
 
@@ -112,4 +153,6 @@ class TicketController extends AbstractController
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
+  
+
 }

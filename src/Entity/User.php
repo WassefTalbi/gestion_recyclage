@@ -21,6 +21,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Ticket::class)]
     private Collection $ticket;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Email = null;
+
     public function __construct()
     {
         $this->ticket = new ArrayCollection();
@@ -75,5 +78,17 @@ class User
     public function __toString(): string
     {
         return $this->getName();
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->Email;
+    }
+
+    public function setEmail(?string $Email): self
+    {
+        $this->Email = $Email;
+
+        return $this;
     }
 }

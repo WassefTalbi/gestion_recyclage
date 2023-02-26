@@ -42,7 +42,7 @@ class EvenementRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
            ->select('b')
-           ->andWhere('b.Nom = :val')
+           ->andWhere('b.Nom = :val OR b.description = :val OR b.type = :val OR b.id = :val OR b.Adresse = :val')
            ->setParameter('val', $nom)
             ->getQuery()
             ->getResult()

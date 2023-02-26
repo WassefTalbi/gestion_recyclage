@@ -25,7 +25,7 @@ class EvenementController extends AbstractController
     #[Route('/recherche', name: 'app_evenement_recherche', methods: ['GET'])]
     public function recherche(EvenementRepository $evenementRepository,Request $req ): Response
     { $nom=$req->get('nom') ;
-        return $this->render('admin/affich.html.twig', [
+        return $this->render('admin/index.html.twig', [
             'evenements' => $evenementRepository->recherche($nom),
         ]);
     }

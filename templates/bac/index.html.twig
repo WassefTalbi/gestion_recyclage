@@ -3,19 +3,23 @@
  {% block texte %}
 
             <!-- Quick Action Toolbar Starts-->
-
+          
             <!-- Quick Action Toolbar Ends-->
-
+        
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
-       <h1 style="text-align: center;"> Afficher Bac </h1>
+       <h1 style="text-align: center;"> Afficher Bac </h1> 
+           {{ form_start(f, {'attr': {'id': 'search-form'}}) }}
+       {{ form_widget(f.searchQuery,{'attr': {'id': 'querry'}}) }}
+        {{ form_widget(f.orderby,{'attr': {'id': 'order'}}) }}
+    {{ form_end(f) }}
 <div class="table-responsive" >
 <table class="table">
   <thead>
     <tr>
       <th scope="col">id</th>
       <th scope="col">ref</th>
-
+   
       <th scope="col">adresse</th>
 
         <th scope="col">codepostal</th>
@@ -24,31 +28,92 @@
       <th scope="col">action</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="bac-table" >
     {% for bac in b %}
     <tr>
+     
+    <td> {{ bac.id }}</td> 
+     <td> {{ bac.ref}} </td> 
+   
+       <td>{{  bac.adresse}}</td> 
+        <td>{{  bac.codepostal}} </td> 
+         <td>{{  bac.capacite }}</td> 
+          <td>{{  bac.etat }}</td> 
 
-    <td> {{ bac.id }}</td>
-     <td> {{ bac.ref}} </td>
-
-       <td>{{  bac.adresse}}</td>
-        <td>{{  bac.codepostal}} </td>
-         <td>{{  bac.capacite }}</td>
-          <td>{{  bac.etat }}</td>
-
-             <td>
+             <td> 
           <a href="{{path('modifierBac',{'id':bac.id}) }}">modifier </a>
                <a href="{{path('deletebac',{'id':bac.id}) }}">supprimer </a>
 
-              </td>
+              </td> 
     </tr>
-
+  
       {% endfor %}
 
   </tbody>
 </table>
 </div>
-{% do b.setPageRange(4) %}
-{{ knp_pagination_render(b, 'bac/pagination.html.twig') }}
-     <div></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{ encore_entry_script_tags('app') }}
+
+
+<script> 
+$(document).ready(function() {
+    var typingTimer; // timer identifier
+    var doneTypingInterval = 500; // time in ms
+
+    $('#search-form').on('keyup', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    $('#search-form').on('keydown', function() {
+        clearTimeout(typingTimer);
+    });
+
+    function doneTyping() {
+        var form = $('#search-form');
+        var url = form.attr('action');
+        var formData = form.serialize();
+        $('#bac-table').html('<p>Loading...</p>');
+        $.ajax({
+            url: "http://127.0.0.1:8000/search",
+            type: 'GET',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                $('#bac-table').html(response.results);
+            },
+            error: function(xhr, status, error) {
+                $('#bac-table').html('<p>Error: ' + error + '</p>');
+            }
+        });
+    }
+
+  $('#search-form').on('change', function() {
+        var form = $('#search-form');
+        var url = form.attr('action');
+        var formData = form.serialize();
+        $('#bac-table').html('<p>Loading...</p>');
+        $.ajax({
+            url: "http://127.0.0.1:8000/search",
+            type: 'GET',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                $('#bac-table').html(response.results);
+            },
+            error: function(xhr, status, error) {
+                $('#bac-table').html('<p>Error: ' + error + '</p>');
+            }
+        });
+    });
+
+
+});
+</script>
+
+
+
 {% endblock %}

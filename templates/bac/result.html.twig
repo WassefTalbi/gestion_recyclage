@@ -1,0 +1,23 @@
+{% block texte %}
+
+    {% for bac in b %}
+    <tr>
+
+    <td> {{ bac.id }}</td>
+     <td> {{ bac.ref}} </td>
+
+       <td>{{  bac.adresse}}</td>
+        <td>{{  bac.codepostal}} </td>
+         <td>{{  bac.capacite }}</td>
+          <td>{{  bac.etat }}</td>
+
+             <td>
+          <a href="{{path('modifierBac',{'id':bac.id}) }}">modifier </a>
+               <a href="{{path('deletebac',{'id':bac.id}) }}">supprimer </a>
+
+              </td>
+    </tr>
+
+      {% endfor %}
+
+{% endblock %}

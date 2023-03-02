@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Bac;
 use App\Entity\Categorie;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Dechet
  *
@@ -16,7 +18,7 @@ class Dechet
 {
     /**
      * @var int
-     *
+     *@Groups({"groups", "Dechet"})
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -27,7 +29,7 @@ class Dechet
      * @Assert\NotBlank(message=" quantite  est obligatoire")
      * @Assert\Type(type="integer")
      * @var int
-     *
+     *@Groups({"groups", "Dechet"})
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
     private $quantite;
@@ -41,7 +43,7 @@ class Dechet
 
     /**
      * @var \Categorie
-     *
+     *@Groups({"groups", "Dechet"})
      * @ORM\ManyToOne(targetEntity=Categorie::class)
      * @ORM\JoinColumn(nullable=false)
      * })
@@ -50,7 +52,7 @@ class Dechet
 
     /**
      * @var \Bac
-     *
+     *@Groups({"groups", "Dechet"})
      * @ORM\ManyToOne(targetEntity=Bac::class)
      * @ORM\JoinColumn(nullable=false)
      * })

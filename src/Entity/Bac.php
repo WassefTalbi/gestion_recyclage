@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Bac
  *
@@ -15,7 +15,7 @@ class Bac
 {
     /**
      * @var int
-     *
+     *@Groups({"groups", "bac"})
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -31,7 +31,7 @@ class Bac
      *
      *     )
      * @var string
-     *
+    *@Groups({"groups", "bac"})
      * @ORM\Column(name="ref", type="string", length=255, nullable=false)
      */
     private $ref;
@@ -44,7 +44,7 @@ class Bac
      *
      *     )
      * @var string
-     *
+     *@Groups({"groups", "bac"})
      * @ORM\Column(name="adresse", type="string", length=255, nullable=false)
      */
     private $adresse;
@@ -53,7 +53,7 @@ class Bac
      * @Assert\NotBlank(message=" codepostal  est obligatoire")
      * @Assert\Type(type="integer")
      * @var int
-     *
+     *@Groups({"groups", "bac"})
      * @ORM\Column(name="codepostal", type="integer", nullable=false)
      */
     private $codepostal;
@@ -62,7 +62,7 @@ class Bac
      * @Assert\NotBlank(message=" capacite  est obligatoire")
      * @Assert\Type(type="integer")
      * @var int
-     *
+     *@Groups({"groups", "bac"})
      * @ORM\Column(name="capacite", type="integer", nullable=false)
      */
     private $capacite;
@@ -71,7 +71,7 @@ class Bac
      * @Assert\NotBlank(message=" etat  est obligatoire")
      * @Assert\Type(type="integer")
      * @var int
-     *
+     *@Groups({"groups", "bac"})
      * @ORM\Column(name="etat", type="integer", nullable=false)
      */
     private $etat;

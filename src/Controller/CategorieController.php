@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Form\CategorieType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CategorieController extends AbstractController
 {
@@ -45,7 +46,7 @@ class CategorieController extends AbstractController
         $pagination = $Paginator->paginate(
             $Categories, // données à paginer
             $request->query->getInt('page', 1), // numéro de la page par défaut
-            4 // nombre d'éléments par page
+            2 // nombre d'éléments par page
         );
         return $this->render('Categorie/index.html.twig', [
             'b'=>$pagination
@@ -124,7 +125,96 @@ $Categorie=$this->getDoctrine()->getRepository(Categorie::class)->findOneBy(arra
 $em=$this->getDoctrine()->getManager();
 $em->remove($Categorie);
 $em->flush();
-    return    $this->redirectToRoute('displayCategorie');
+return new Response("success");
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+     * @Route("/Categorielist",name="Categorielist")
+     */
+
+     public function getCategories(SerializerInterface $serializer ){
+        $Categories = $this->getDoctrine()->getManager()->getRepository(Categorie::class)->findAll();
+      
+        $json=$serializer->serialize($Categories,'json',['groups'=>'Categorie']);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("/registerCategorie", name="registerCategorie")
+     */
+    public function registerCategorie( Request $request,SerializerInterface $serializer,EntityManagerInterface $manager){
+        $Categorie = new Categorie();
+
+
+        $Categorie->setNom($request->query->get("nom"));
+        $Categorie->setDescription($request->query->get("description"));
+        $manager->persist($Categorie);
+        $manager->flush();
+        $json=$serializer->serialize($Categorie,'json',['groups'=>'Categorie']);
+        return new Response($json);
+    }
+
+
+   /**
+     * @Route("/updateCategorie", name="updateCategorie")
+     */
+    public function updateCategorie( 
+        Request $request,
+        serializerInterface $serializer,
+        EntityManagerInterface $entityManager)
+        {
+    $Categorie = new Categorie();
+    $Categorie=$this->getDoctrine()->getRepository(Categorie::class)->findOneBy(array('id'=>$request->query->get("id")));
+
+    $Categorie->setNom($request->query->get("nom"));
+    $Categorie->setDescription($request->query->get("description"));
+$entityManager->persist($Categorie);
+$entityManager->flush();
+
+ return new Response("success");
+
+}
+
+/**
+* @Route("/deletecategorie", name="deletecategorie")
+*/
+public function deletecategoriee( 
+        Request $request,
+        serializerInterface $serializer,
+        EntityManagerInterface $entityManager
+
+){
+
+    $Categorie=$this->getDoctrine()->getRepository(Categorie::class)->findOneBy(array('id'=>$request->query->get("id")));
+    $em=$this->getDoctrine()->getManager();
+    $em->remove($Categorie);
+    $em->flush();
+    return new Response("success");
+   
+}
+
+
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Bac;
 use App\Form\BacType;
 use App\Form\SearchFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -187,6 +188,84 @@ public function search(Request $request,SerializerInterface $serializer,Paginato
 
 
 
+
+
+
+
+
+
+
+
+/**
+     * @Route("/Baclist",name="Baclist")
+     */
+
+     public function getBacs(SerializerInterface $serializer ){
+        $Bacs = $this->getDoctrine()->getManager()->getRepository(Bac::class)->findAll();
+      
+        $json=$serializer->serialize($Bacs,'json',['groups'=>'bac']);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("/registerBac", name="registerBac")
+     */
+    public function registerBac( Request $request,SerializerInterface $serializer,EntityManagerInterface $manager){
+        $Bac = new Bac();
+
+
+        $Bac->setAdresse($request->query->get("adresse"));
+        $Bac->setCapacite($request->query->get("capacite"));
+        $Bac->setEtat($request->query->get("etat"));
+        $Bac->setCodepostal($request->query->get("codepostal"));
+        $Bac->setRef($request->query->get("ref"));
+        $manager->persist($Bac);
+        $manager->flush();
+        $json=$serializer->serialize($Bac,'json',['groups'=>'Bac']);
+        return new Response($json);
+    }
+
+
+   /**
+     * @Route("/updateBac", name="updateBac")
+     */
+    public function updateBac( 
+        Request $request,
+        serializerInterface $serializer,
+        EntityManagerInterface $entityManager)
+        {
+    $Bac = new Bac();
+    $Bac=$this->getDoctrine()->getRepository(Bac::class)->findOneBy(array('id'=>$request->query->get("id")));
+
+    $Bac->setAdresse($request->query->get("adresse"));
+    $Bac->setCapacite($request->query->get("capacite"));
+    $Bac->setEtat($request->query->get("etat"));
+    $Bac->setCodepostal($request->query->get("codepostal"));
+    $Bac->setRef($request->query->get("ref"));
+$entityManager->persist($Bac);
+$entityManager->flush();
+
+ return new Response("success");
+
+}
+
+/**
+* @Route("/deleteBaac", name="deleteuaer")
+*/
+public function deleteBaac( 
+        Request $request,
+        serializerInterface $serializer,
+        EntityManagerInterface $entityManager
+
+){
+
+    $Bac=$this->getDoctrine()->getRepository(Bac::class)->findOneBy(array('id'=>$request->query->get("id")));
+    $em=$this->getDoctrine()->getManager();
+    $em->remove($Bac);
+    $em->flush();
+    return new Response("success");
+   
+}
 
 
 

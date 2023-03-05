@@ -51,6 +51,9 @@ class Evenement
     #[ORM\OneToMany(mappedBy: 'Evenement', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $etat = false;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -200,5 +203,17 @@ class Evenement
     public function __toString(): string
     {
         return $this->getId();
+    }
+
+    public function isEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
     }
 }

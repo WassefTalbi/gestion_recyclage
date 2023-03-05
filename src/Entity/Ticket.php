@@ -31,6 +31,9 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'ticket')]
     private ?User $ticket = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Status = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Ticket
     public function setTicket(?User $ticket): self
     {
         $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(?bool $Status): self
+    {
+        $this->Status = $Status;
 
         return $this;
     }

@@ -37,7 +37,7 @@ class TicketController extends AbstractController
        
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
-        
+       
         $evenement = $evenementrepository->find($evenementid);
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -97,6 +97,7 @@ class TicketController extends AbstractController
                         'quantite' => $ticket->getQuantite(),
                         'type' => $ticket->getType(),
                         'user' =>$ticket->getTicket()->getName(),
+                        'ticket' =>$ticket,
                     ]
                 ),
                 'text/html'
@@ -114,6 +115,7 @@ class TicketController extends AbstractController
             'ticket' => $ticket,
             'form' => $form,
             'evenement'=> $evenement,
+            
         ]);
     }
 
@@ -155,4 +157,6 @@ class TicketController extends AbstractController
     }
   
 
+
 }
+

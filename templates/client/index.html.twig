@@ -54,7 +54,7 @@
             <li><a class="nav-link scrollto " href="#hero">Home</a></li>
             <li><a class="nav-link scrollto" href="#about">About</a></li>
             <li><a class="nav-link scrollto" href="#services">Services</a></li>
-            <li><a class="nav-link scrollto " href="/evenement/front">Events</a></li>
+            <li><a class="nav-link scrollto " href="/evenement/front/1">Events</a></li>
             <li><a class="nav-link scrollto" href="#team">Team</a></li>
             <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
@@ -89,32 +89,34 @@
     <!-- ======= Breadcrumbs ======= -->
     <section class="breadcrumbs">
       <div class="container">
-      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+ {% for evenement in evenements %}  
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-evenementid="{{ evenement.id }}">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <form>
+      
+
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
 </div>
-
+ {% endfor %}
+                  {# <div>
+                     <h1>User Name {{ user}}<h1>
+                  </div>  #}
         <div class="d-flex justify-content-between align-items-center">
           <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio">
@@ -149,9 +151,12 @@
                 <h4>{{evenement.nom}}</h4>
                 <p>{{evenement.description}}</p>
                 <div class="portfolio-links">
-                  <a href="{{ path('app_ticket_new', {'evenementid': evenement.id}) }}" <i class="bx bx-plus"></i></a>
-                      {{ include('client/modal.html.twig') }}
-                  <a href="{{ path('app_evenement_showx', {'id': evenement.id}) }}" title="More Details"><i class="bx bx-link"></i></a>
+                {% set parameters = {'evenementid': evenement.id, 'iduser': 1} %}
+
+
+                  <a href="{{ path('app_ticket_new', parameters )}}" <i class="bx bx-plus"></i></a>
+                      {% set parameterss = {'id': evenement.id} %}
+                  <a href="{{ path('app_evenement_showx', parameterss) }}" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -159,9 +164,12 @@
           
 
           {% endfor %}
+
         </div>
 
+
       </div>
+      {{ knp_pagination_render(evenements) }}
    {% endblock %}
     </section><!-- End Portfolio Section -->
         </div>
@@ -182,7 +190,9 @@
         <div class="row">
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>Bethany</h3>
+            {# <div>
+                     <h1>User Name {{ user}}<h1>
+                  </div>  #}
             <p>
               A108 Adam Street <br>
               New York, NY 535022<br>
@@ -258,13 +268,38 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"></script>
 
   <!-- Script pour initialiser le modal -->
-  <script>
+  {# <script>
   console.log('Initialisation du modal');
-  $(document).ready(function() {
+  var myModal = document.getElementById('exampleModal')
+var myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})
+ /* $(document).ready(function() {
     $('#exampleModal').modal({
       show: false
     });
-  });
+    
+  });*/
+</script> #}
+<script>
+var exampleModal = document.getElementById('exampleModal')
+exampleModal.addEventListener('show.bs.modal', function (event) {
+  // Button that triggered the modal
+  var button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+  var recipient = button.getAttribute('data-bs-whatever')
+  // If necessary, you could initiate an AJAX request here
+  // and then do the updating in a callback.
+  //
+  // Update the modal's content.
+  var modalTitle = exampleModal.querySelector('.modal-title')
+  var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+  modalTitle.textContent = 'New message to ' + recipient
+  modalBodyInput.value = recipient
+})
 </script>
   <!-- Vendor JS Files -->
   <script src="{{asset('client/assets/vendor/purecounter/purecounter_vanilla.js')}}"></script>

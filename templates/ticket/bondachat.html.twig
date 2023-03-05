@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Bon d'achat gagné!</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color: #F6F6F6;
+		}
+		
+		.wrapper {
+			margin: 0 auto;
+			max-width: 600px;
+			background-color: white;
+			padding: 30px 50px;
+			box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+			border-radius: 10px;
+			text-align: center;
+		}
+		
+		h1 {
+			margin-top: 0;
+			font-size: 36px;
+			font-weight: bold;
+			color: #232323;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			margin-bottom: 30px;
+		}
+		
+		p {
+			font-size: 20px;
+			line-height: 1.5;
+			color: #666666;
+			margin-bottom: 20px;
+		}
+		
+		.code {
+			margin-top: 30px;
+			font-size: 40px;
+			font-weight: bold;
+			color: #4CAF50;
+			letter-spacing: 5px;
+		}
+		
+		.cta {
+			margin-top: 50px;
+			padding: 15px 40px;
+			background-color: #4CAF50;
+			color: white;
+			display: inline-block;
+			border-radius: 30px;
+			text-decoration: none;
+			font-size: 24px;
+			transition: background-color 0.3s ease;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+		}
+		
+		.cta:hover {
+			background-color: #3E8E41;
+		}
+		
+		@media only screen and (max-width: 500px) {
+			h1 {
+				font-size: 28px;
+			}
+			
+			p {
+				font-size: 18px;
+			}
+			
+			.code {
+				font-size: 32px;
+			}
+			
+			.cta {
+				font-size: 20px;
+				padding: 10px 30px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<h1>Bon d'achat de 200 Dinars T</h1>
+		<p>Félicitations!  {{user}}  Vous avez gagné un bon d'achat de 200 Dinars T dans notre tirage au sort.</p>
+		<p>Pour utiliser votre bon d'achat, voici votre code unique:</p>
+		<p class="code">{{ id }}</p>
+		<a href="/evenement/front" class="cta">Visitez notre site web</a>
+	</div>
+</body>
+</html>

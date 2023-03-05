@@ -5,11 +5,13 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use symfony\component\validator\constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Post
  *
  * @ORM\Table(name="post", indexes={@ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
@@ -20,6 +22,7 @@ class Post
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("Post")]
     private $idPost;
 
     /**
@@ -27,7 +30,7 @@ class Post
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
-    
+     #[Groups("Post")]
      #[Assert\Length(min:3)]
      #[Assert\Length(max:100)]
      #[Assert\NotBlank (message:"veuillez saisir la descripttion de l'association que vous voulez !! ")]
@@ -38,6 +41,7 @@ class Post
      *
      * @ORM\Column(name="date", type="date", nullable=false)
      */
+     #[Groups("Post")]
     private $date;
 
     /**
@@ -45,6 +49,7 @@ class Post
      *
      * @ORM\Column(name="url_img", type="string", length=255, nullable=false)
      */
+     #[Groups("Post")]
     private $urlImg;
 
     /**
@@ -52,7 +57,8 @@ class Post
      *
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
      */
-    #[Assert\Length(min:3)]
+     #[Groups("Post")]
+     #[Assert\Length(min:3)]
      #[Assert\Length(max:10)]
      #[Assert\NotBlank (message:"veuillez saisir le titre de l'association!! ")]
     private $titre;
@@ -62,6 +68,7 @@ class Post
      *
      * @ORM\Column(name="active", type="integer", nullable=false)
      */
+     #[Groups("Post")]
     private $active;
 
     /**
@@ -72,12 +79,8 @@ class Post
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
      * })
      */
+     #[Groups("Post")]
     private $idUser;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="post")
-     */
-    private $commentaires;
 
     public function getIdPost(): ?int
     {
@@ -155,7 +158,9 @@ class Post
 
         return $this;
     }
-
+    public function __construct()
+    {
+        $this->date = new \DateTime('now');
+    }
 
 }
-

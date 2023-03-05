@@ -11,11 +11,65 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-
+use App\Repository\PostRepository;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/post')]
 class PostController extends AbstractController
 {
+
+
+
+
+    
+    /**
+     * @Route("/registerPost", name="registerPost")
+     */
+    public function registerPost( Request $request,SerializerInterface $serializer,EntityManagerInterface $manager){
+        $Post = new Post();
+
+        $Post->setDescription($request->query->get("description"));
+        //$Post->setDate($request->query->get("date"));
+        $Post->setUrlImg($request->query->get("urlImg"));
+        $Post->setTitre($request->query->get("titre"));
+        $Post->setActive($request->query->get("active"));
+        $manager->persist($Post);
+        $manager->flush();
+        $json=$serializer->serialize($Post,'json',['groups'=>'Post']);
+        return new Response($json);
+    }
+
+
+
+    
+
+/**
+     * @Route("/postlist",name="Postlist")
+     */
+
+     public function getPosts(PostRepository $repo,SerializerInterface $serializer )
+     {
+        $posts = $repo->findAll();
+
+        $json=$serializer->serialize($posts,'json', ['groups' => 'Post']);
+        return new Response($json);
+    }
+
+
+    /**
+     * @Route("/postlist/{id}",name="post")
+     */
+    public function StudentId($id, NormalizerInterface $normalizer, PostRepository $repo)
+    {
+        $post = $repo->find($id);
+        $PostNormalises = $normalizer->normalize($post, 'json', ['groups' => "Post"]);
+        return new Response(json_encode($PostNormalises));
+    }
+
+
+
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -29,15 +83,65 @@ class PostController extends AbstractController
     }
     
 
-    #[Route('/front', name: 'app_post_front', methods: ['GET'])]
-    public function indexf(EntityManagerInterface $entityManager): Response
+    #[Route('/front', name: 'app_post_front', methods: ['GET','POST'])]
+    public function indexf(EntityManagerInterface $entityManager,Request $request,PostRepository $postRepository): Response
     {
         $posts = $entityManager
             ->getRepository(Post::class)
             ->findAll();
+            /////////
+            $back = null;
+            
+            if($request->isMethod("POST")){
+                if ( $request->request->get('optionsRadios')){
+                    $SortKey = $request->request->get('optionsRadios');
+                    switch ($SortKey){
+                        case 'titre':
+                            $posts = $postRepository->SortBytitre();
+                            break;
+    
+                        case 'description':
+                            $posts = $postRepository->SortByTdescription();
+                            break;
+
+                        case 'date':
+                            $posts = $postRepository->SortByDate();
+                            break;
+    
+    
+                    }
+                }
+                else
+                {
+                    $type = $request->request->get('optionsearch');
+                    $value = $request->request->get('Search');
+                    switch ($type){
+                        case 'titre':
+                            $posts = $postRepository->findBytitre($value);
+                            break;
+    
+                        case 'description':
+                            $posts = $postRepository->findBydescription($value);
+                            break;
+    
+                        case 'date':
+                            $posts = $postRepository->findByDate($value);
+                            break;
+    
+    
+                    }
+                }
+
+                if ( $posts){
+                    $back = "success";
+                }else{
+                    $back = "failure";
+                }
+            }
+                //
 
         return $this->render('post/indexfront.html.twig', [
-            'posts' => $posts,
+            'posts' => $posts,'back'=>$back,
         ]);
     }
     
@@ -178,6 +282,53 @@ class PostController extends AbstractController
     }
    
     
+
+
+   /**
+     * @Route("/updatePost", name="updatePost")
+     */
+    public function updatePost(
+        Request $request,
+        serializerInterface $serializer,
+        EntityManagerInterface $entityManager)
+        {
+    $Post = new Post();
+    $Post=$this->getDoctrine()->getRepository(Post::class)->findOneBy(array('id'=>$request->query->get("id")));
+
+    $Post->setDescription($request->query->get("description"));
+        //$Post->setDate($request->query->get("date"));
+        $Post->setUrlImg($request->query->get("urlImg"));
+        $Post->setTitre($request->query->get("titre"));
+        $Post->setActive($request->query->get("active"));
+$entityManager->persist($Post);
+$entityManager->flush();
+
+ return new Response("success");
+
 }
+
+/**
+* @Route("/deletepoost", name="deleteuaer")
+*/
+public function deletepoost(
+        Request $request,
+        serializerInterface $serializer,
+        EntityManagerInterface $entityManager
+
+){
+
+    $Post=$this->getDoctrine()->getRepository(Post::class)->findOneBy(array('id'=>$request->query->get("id")));
+    $em=$this->getDoctrine()->getManager();
+    $em->remove($Post);
+    $em->flush();
+    return new Response("success");
+
+}
+
+
+
+}
+
+
 
 

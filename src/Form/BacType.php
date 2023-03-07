@@ -9,12 +9,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Validator\Constraints\StartsWithCapital;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-
 class BacType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

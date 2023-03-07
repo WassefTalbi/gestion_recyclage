@@ -2,3 +2,6 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+bac_search:
+    path: /bac/search
+    controller: App\Controller\BacController::search

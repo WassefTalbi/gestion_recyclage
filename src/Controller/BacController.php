@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use PDO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -188,7 +189,39 @@ public function search(Request $request,SerializerInterface $serializer,Paginato
 
 
 
+   /**
+     * @Route("/stats", name="statss")
+     */
+    public function statistiques(EntityManagerInterface $em){
+        // On va chercher toutes les bac per quantite
+  
+        $bacs= $this->getDoctrine()->getManager()->getRepository(Bac::class)->findAll();
 
+       
+        $bacid = [];
+        $produitCount = [];
+        $quantite = [];
+        foreach($bacs as $b){
+     
+            $sql = "SELECT SUM(quantite) AS c FROM dechet WHERE id_bac_id=". $b->getId() .";";
+            $stmt = $em->getConnection()->prepare($sql);
+            $result = $stmt->execute();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            if($row['c'])
+            {
+            $bacid[] = $b->getId();
+            $quantite[] = $row['c'];
+        }
+        }
+  
+  
+        return $this->render('bac/Stat.html.twig', [
+            'dates' => json_encode($bacid),
+            'produitCount' => json_encode($quantite),
+        ]);
+  
+  
+    }
 
 
 

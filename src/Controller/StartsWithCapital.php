@@ -2,7 +2,6 @@
 namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Annotation

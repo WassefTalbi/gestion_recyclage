@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Swift_Message;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class DechetController extends AbstractController
@@ -39,7 +40,7 @@ class DechetController extends AbstractController
         $pagination = $Paginator->paginate(
             $Dechets, // données à paginer
             $request->query->getInt('page', 1), // numéro de la page par défaut
-            3 // nombre d'éléments par page
+            5 // nombre d'éléments par page
         );
         return $this->render('dechet/index.html.twig', [
             'b'=>$pagination
@@ -51,7 +52,7 @@ class DechetController extends AbstractController
     /**
      * @Route("/addDechet", name="addDechet")
      */
-    public function addDechet(Request $request): Response
+    public function addDechet(Request $request,\Swift_Mailer $mailer): Response
     {
       
        $Dechet=new Dechet();
@@ -59,6 +60,17 @@ class DechetController extends AbstractController
        $form->handleRequest($request);
        if($form->isSubmitted() && $form->isValid()){
            
+   
+
+        $message =(new \Swift_Message('dechet Ajouter'))
+        ->setFrom('mejdi.mohamed@esprit.tn')
+        ->setTo('medamine.abidi@esprit.tn')
+        ->setBody('nouvel dechet été ajouter dans votre bac au adresse : '.$Dechet->getIdBac()->getAdresse().'avec success','text')
+        ;
+        $mailer->send($message);
+
+
+
          $em = $this->getDoctrine()->getManager();
            $em->persist($Dechet);
            $em->flush();

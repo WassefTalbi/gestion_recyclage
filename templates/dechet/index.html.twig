@@ -14,7 +14,7 @@
 <table class="table">
   <thead>
     <tr>
-
+      <th scope="col">id</th>
       <th scope="col">quantite</th>
       <th scope="col">date</th>
          <th scope="col">nom_cat </th>
@@ -26,7 +26,7 @@
   <tbody>
     {% for Dechet in b %}
     <tr>
-
+         <td> {{ Dechet.id }}</td> 
     <td> {{ Dechet.quantite }}</td> 
      <td> {{ Dechet.date|date('d-m-Y') }} </td> 
          <td> {{ Dechet.id_cat }}</td> 
@@ -46,5 +46,4 @@
 </div>
 {% do b.setPageRange(4) %}
 {{ knp_pagination_render(b, 'bac/pagination.html.twig') }}
-     <div></div>
 {% endblock %}

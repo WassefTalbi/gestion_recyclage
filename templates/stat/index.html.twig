@@ -1,0 +1,98 @@
+{% extends 'baseback.html.twig' %}
+
+{% block texte %}
+    <h1>Statistics</h1>
+    <div>
+        <canvas id="bac-chart" width="400" height="400"></canvas>
+
+    </div>
+    <div>
+        <canvas id="dechet-chart" width="400" height="400"></canvas>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+    <script src="{{ asset('back-office/assets/js/Chart.min.js') }}"></script>
+    <script>
+        var bacData = {
+            labels: {{ bacLabels }},
+            datasets: [{
+                label: 'Bac Statistics',
+                data: {{ bacValues }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var dechetData = {
+            labels: {{ dechetLabels }},
+            datasets: [{
+                label: 'Dechet Statistics',
+                data: {{ dechetValues }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var bacCtx = document.getElementById('bac-chart').getContext('2d');
+        var bacChart = new Chart(bacCtx, {
+            type: 'pie',
+            data: bacData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        var dechetCtx = document.getElementById('dechet-chart').getContext('2d');
+        var dechetChart = new Chart(dechetCtx, {
+            type: 'bar',
+            data: dechetData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        {% endblock %}

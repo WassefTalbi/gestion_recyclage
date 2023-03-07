@@ -46,7 +46,7 @@ class CategorieController extends AbstractController
         $pagination = $Paginator->paginate(
             $Categories, // données à paginer
             $request->query->getInt('page', 1), // numéro de la page par défaut
-            2 // nombre d'éléments par page
+            5 // nombre d'éléments par page
         );
         return $this->render('Categorie/index.html.twig', [
             'b'=>$pagination

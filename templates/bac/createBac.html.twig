@@ -1,9 +1,6 @@
 {% extends 'baseback.html.twig' %}
  {% block texte %}
-
-
-
-     <h1 style="text-align: center;"> Ajouter Bac </h1>
+        <h1 style="text-align: center;"> Ajouter Bac </h1> 
 
  {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
 
@@ -28,7 +25,7 @@
                 </div>
                 <div class="col-12">
                   <label for="inputPassword4" class="form-label">code postal</label>
-                      {{ form_widget(f.codepostal, {'attr': {'class': 'form-control','type':'number', 'placeholder': 'code postal'}}) }}
+                      {{ form_widget(f.codepostal, {'attr': {'class': 'form-control','type':'text', 'placeholder': 'code postal'}}) }}
                                                       {{ form_errors(f.codepostal,{ 'attr':{'class':'text-danger'}}) }}
 
                 </div>
@@ -50,12 +47,12 @@
 
                 </div>
               </form><!-- Vertical Form -->
-                <div></div>
+
             </div>
           </div>
 {{ form_end(f) }}
 
  {% endblock %}
 
-
+ 
 

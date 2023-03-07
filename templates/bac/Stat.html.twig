@@ -1,0 +1,34 @@
+{% extends 'baseback.html.twig' %}
+
+{% block texte %}
+
+    <div class="container">
+        <h1>Statistiques</h1>
+        <canvas id="produits" width="400" height="100"></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+<script>
+
+    let produits = document.querySelector("#produits")
+    let annGraph = new Chart(produits, {
+        type: "line",
+        data: {
+            labels: {{ dates|raw }},
+            datasets: [{
+                label: "Quantite par bac",
+                data: {{ produitCount|raw }}
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    })
+</script>
+{% endblock %}
+

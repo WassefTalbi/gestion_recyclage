@@ -32,62 +32,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $this->getEntityManager()->flush();
         }
     }
-
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
-    public function upgradePassword(UserInterface $user, string $newHashedPassword): void
-    {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
-        }
-
-        $user->setPassword($newHashedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
-    }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-
-     /**
-     * @return User[]
-     */
-    public function findPlanBySujet($sujet){
-        return $this->createQueryBuilder('User')
-            ->andWhere(' User.username LIKE :sujet or User.email LIKE :sujet  or User.fullname Like :sujet')
-            ->setParameter('sujet', '%'.$sujet.'%')
-            ->getQuery()
-            ->getResult();
-    }
-
     public function remove(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -96,5 +40,30 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $this->getEntityManager()->flush();
         }
     }
+    public function orderByMail()
+{
+    return $this->createQueryBuilder('s')
+        ->orderBy('s.email', 'ASC')
+        ->getQuery()->getResult();
+}
+public function orderByUsername()
+{
+    return $this->createQueryBuilder('s')
+        ->orderBy('s.username', 'ASC')
+        ->getQuery()->getResult();
+}
+public function findVerifiedUser(){
 
+    $qb= $this->createQueryBuilder('s');
+    $qb ->where('s.isVerified=:isVerified');
+    $qb->setParameter('isVerified',true);
+    return $qb->getQuery()->getResult();
+}
+public function findBannedUser(){
+
+    $qb= $this->createQueryBuilder('s');
+    $qb ->where('s.isBanned=:isBanned');
+    $qb->setParameter('isBanned',true);
+    return $qb->getQuery()->getResult();
+}
 }

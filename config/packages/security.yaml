@@ -26,7 +26,7 @@ security:
                 path: logout
                 # where to redirect after logout
                 target: home
-
+            user_checker: App\Security\UserChecker
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -38,9 +38,9 @@ security:
     access_control:
          - { path: /back, roles: ROLE_ADMIN }
          - { path: /user, roles: ROLE_ADMIN }
-         - { path: /collector, roles: ROLE_COLLECTOR }
+         - { path: /home, roles: ROLE_COLLECTOR }
          - { path: /home, roles: ROLE_USER }
-
+    access_denied_url: /access_denied
 when@test:
     security:
         password_hashers:

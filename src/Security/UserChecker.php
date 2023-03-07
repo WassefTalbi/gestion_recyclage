@@ -11,7 +11,7 @@ class UserChecker implements UserCheckerInterface
 
     public function checkPreAuth(UserInterface $user)
     {
-        if ($user->isBanned()) {
+        if ($user->isIsBanned()) {
             throw new CustomUserMessageAuthenticationException("You're banned Contact us for more infos.");
         }
     }

@@ -4,7 +4,22 @@
 
 {% block body %}
     
-
+<a href="{{ path('bymail') }}" class="nk-btn nk-btn-rounded nk-btn-color-white"  >
+                            <span>Sort By Mail</span>
+                            <span class="icon"><i class="ion-paper-airplane"></i></span>
+                    </a>
+    <a href="{{ path('listUserVerified') }}" class="nk-btn nk-btn-rounded nk-btn-color-white"  >
+                            <span>Sort By Verification</span>
+                            <span class="icon"><i class="ion-paper-airplane"></i></span>
+                    </a>
+    <a href="{{ path('listUserBanned') }}" class="nk-btn nk-btn-rounded nk-btn-color-white"  >
+                            <span>Sort By Ban Status</span>
+                            <span class="icon"><i class="ion-paper-airplane"></i></span>
+                    </a>
+    <a href="{{ path('byusername') }}" class="nk-btn nk-btn-rounded nk-btn-color-white"  >
+                            <span>Sort By Username</span>
+                            <span class="icon"><i class="ion-paper-airplane"></i></span>
+                    </a>
     <table class="table">
         <thead>
             <tr>
@@ -18,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
+        {% for user in pagination %}
             <tr>
                 
                 <td>{{ user.email }}</td>
@@ -40,6 +55,22 @@
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
                     <a href="{{ path('app_user_edit_roles', {'id': user.id}) }}">edit roles </a>
+                    {% if user.isBanned is not empty and user.isBanned %}
+
+
+
+                                    <form method="post" action="{{ path('user_unban', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to unban this User?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('unban' ~ user.id) }}">
+                                    <button class="dropdown-item text-danger"><i class="fa fa-trash mr-1"></i>UnBan</button>
+                                    </form>
+
+                                    {% else %}
+
+                                    <form method="post" action="{{ path('user_ban', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to ban this User?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('ban' ~ user.id) }}">
+                                    <button class="dropdown-item text-danger"><i class="fa fa-trash mr-1"></i>Ban</button>
+                                    </form>
+                                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -49,6 +80,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ knp_pagination_render(pagination) }}
 
     
 {% endblock %}

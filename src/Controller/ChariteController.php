@@ -5,34 +5,100 @@ namespace App\Controller;
 use App\Entity\Charite;
 use App\Form\Charite1Type;
 use Doctrine\ORM\EntityManagerInterface;
+
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\ChariteRepository;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 #[Route('/charite')]
 class ChariteController extends AbstractController
 {
-    #[Route('/', name: 'app_charite_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    #[Route('/', name: 'app_charite_index', methods: ['GET','POST'])]
+    public function index(EntityManagerInterface $entityManager,Request $request,ChariteRepository $chariteRepository): Response
     {
         $charites = $entityManager
             ->getRepository(Charite::class)
             ->findAll();
 
+
+////
+            $back = null;
+            
+            if($request->isMethod("POST")){
+                if ( $request->request->get('optionsRadios')){
+                    $SortKey = $request->request->get('optionsRadios');
+                    switch ($SortKey){
+                        case 'nomCharite':
+                            $charites = $chariteRepository->SortByNomCharite();
+                            break;
+    
+                        case 'lieuCharite':
+                            $charites = $chariteRepository->SortByLieuCharite();
+                            break;
+
+                        case 'typeCharite':
+                            $charites = $chariteRepository->SortByTypeCharite();
+                            break;
+    
+    
+                    }
+                }
+                else
+                {
+                    $type = $request->request->get('optionsearch');
+                    $value = $request->request->get('Search');
+                    switch ($type){
+                        case 'nomCharite':
+                            $charites = $chariteRepository->findByNomCharite($value);
+                            break;
+    
+                        case 'lieuCharite':
+                            $charites = $chariteRepository->findByLieuCharite($value);
+                            break;
+    
+                        case 'typeCharite':
+                            $charites = $chariteRepository->findByTypeCharite($value);
+                            break;
+    
+                       
+    
+                    }
+                }
+
+                if ( $charites){
+                    $back = "success";
+                }else{
+                    $back = "failure";
+                }
+            }
+                ////////
+
+
+    
+
         return $this->render('charite/index.html.twig', [
-            'charites' => $charites,
+            'charites' => $charites,'back'=>$back,
+            
         ]);
     }
     #[Route('/f', name: 'app_charite_indexf', methods: ['GET'])]
-    public function indexf(EntityManagerInterface $entityManager): Response
+    public function indexf(EntityManagerInterface $entityManager) : Response
     {
-        $charites = $entityManager
+       $charite = $entityManager
             ->getRepository(Charite::class)
             ->findAll();
+    ;
 
+
+            
         return $this->render('charite/indexf.html.twig', [
-            'charites' => $charites,
+            'charites' => $charite,
+           
+            
         ]);
     }
 
@@ -101,4 +167,5 @@ class ChariteController extends AbstractController
 
         return $this->redirectToRoute('app_charite_index', [], Response::HTTP_SEE_OTHER);
     }
+  
 }

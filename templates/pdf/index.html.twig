@@ -1,0 +1,33 @@
+<img src="{{ asset('front/images/image.jpg') }}"  style=" width:60px; height:100px; "alt="Description de votre image">
+
+                <table  border="1">
+                    <thead >
+                        <tr>
+                            <th>IdDons</th>
+                <th>TypeDons</th>
+                <th>DescriptionDons</th>
+                <th>IdUser</th>
+                <th>IdCharite</th>
+             
+                
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in don %}
+                            <tr>
+                                <td>{{ d.getIdDons() }}</td>
+                                
+                               
+                                <td>{{ d.getTypeDons() }}</td>
+                                <td>{{ d.getDescriptionDons() }}</td>
+                                 <td>{{ d.getIdCharite() }}</td>
+                                  <td>{{ d.getIdUser() }}</td>
+                                              
+                                
+                                  
+                               
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>

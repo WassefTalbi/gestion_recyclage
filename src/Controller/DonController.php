@@ -9,6 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PdfGeneratorService;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Swift_Message;
+use Swift_Mailer;
+use Swift_SmtpTransport;
 
 #[Route('/don')]
 class DonController extends AbstractController
@@ -25,11 +31,16 @@ class DonController extends AbstractController
         ]);
     }
     #[Route('/f', name: 'app_don_indexf', methods: ['GET'])]
-    public function indexf(EntityManagerInterface $entityManager): Response
+    public function indexf(EntityManagerInterface $entityManager,Request  $request , PaginatorInterface $paginator ): Response
     {
-        $dons = $entityManager
+        $donnees = $entityManager
             ->getRepository(Don::class)
             ->findAll();
+            $dons = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                3 // Nombre de résultats par page
+            );
 
         return $this->render('don/indexf.html.twig', [
             'dons' => $dons,
@@ -46,6 +57,7 @@ class DonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($don);
             $entityManager->flush();
+            
 
             return $this->redirectToRoute('app_don_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -64,8 +76,21 @@ class DonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+            ->setUsername('recycle.tunisia')
+            ->setPassword('ztntffukvpwraygm');
+        
+        $mailer = new Swift_Mailer($transport);
+        
+        $message = (new Swift_Message('Bon d achat '))
+            ->setFrom(['recycle.tunisia@gmail.com' => 'Recycle tunisia'])
+            ->setTo(["medini.manar@esprit.tn"])
+            ->setBody("un nouveau don a ete ajoutees");
+        
+        $mailer->send($message);
             $entityManager->persist($don);
             $entityManager->flush();
+            
 
             return $this->redirectToRoute('app_don_indexf', [], Response::HTTP_SEE_OTHER);
         }
@@ -118,4 +143,25 @@ class DonController extends AbstractController
 
         return $this->redirectToRoute('app_don_index', [], Response::HTTP_SEE_OTHER);
     }
+    
+    #[Route('/pdf/don', name: 'generator_service')]
+    public function pdfService(): Response
+    { 
+        $don= $this->getDoctrine()
+        ->getRepository(Don::class)
+        ->findAll();
+
+   
+
+        $html =$this->renderView('pdf/index.html.twig', ['don' => $don]);
+        $pdfGeneratorService=new PdfGeneratorService();
+        $pdf = $pdfGeneratorService->generatePdf($html);
+
+        return new Response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"',
+        ]);
+       
+    }
+
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="don", indexes={@ORM\Index(name="id_charite", columns={"id_charite"}), @ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
+
  */
 class Don
 {
@@ -27,7 +28,7 @@ class Don
      * @ORM\Column(name="type_dons", type="string", length=255, nullable=false)
      */
     #[Assert\Length(min:3)]
-     #[Assert\Length(max:10)]
+     #[Assert\Length(max:12)]
      #[Assert\NotBlank (message:"veuillez saisir le type de dons ")]
     private $typeDons;
 
@@ -99,9 +100,9 @@ class Don
         return $this;
     }
 
-    public function getIdCharite(): ?Charite
+    public function getIdCharite(): ?Charite 
     {
-        return $this->idCharite;
+        return  $this->idCharite;
     }
 
     public function setIdCharite(?Charite $idCharite): self

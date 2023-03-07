@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau des postes</title>
+</head>
+<body >
+<h1 style="text-align: center; color: red">Trenna</h1>
+<h2 style="text-align: center">Tableau des postes</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+
+        <th>date</th>
+        <th>description</th>
+        <th>date</th>
+        <th>titre</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for c in post %}
+        <tr>
+            <td>{{ c.date }}</td>
+            <td>{{ c.description }}</td>
+            <td>{{ c.titre }}</td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+</body>
+</html>

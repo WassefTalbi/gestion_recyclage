@@ -15,7 +15,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
+                 <a  class="utf_post_img"> <img  src="{{  asset ("uploads/#{post.urlImg}") }}" alt=""> </a>
                     <img class="card-img-top" src="{{ asset('uploads/' ~post.urlImg) }}" alt="">
+         
                     <div class="card-body">
                         <h4 class="card-title">{{ post.titre }}</h4>
                         <p class="card-text">{{ post.description }}</p>
@@ -33,6 +35,9 @@
                                     <th>Date</th>
                                     <td>{{ post.date ? post.date|date('Y-m-d') : '' }}</td>
                                 </tr>
+                                 <tr>
+                                 <img class="card-img-top" src="{{ asset('uploads/' ~post.urlImg) }}" alt="">
+                                   </tr>
                                {#   <li><a href="#">{{ number }} contenu</a></li>#}
                             </tbody>
                         </table>
@@ -45,13 +50,13 @@
                     </div>
                     
 
-                    ----
+                    ----{#
                     
  <div class="clearfix"></div>
 
 
                     <section class="comments">
-                        <h4 class="headline_part margin-top-20 margin-bottom-35"> <i class="fa fa-comments" ></i>Comments <span class="comments-amount">({{ number }})</span></h4>
+                      {#  <h4 class="headline_part margin-top-20 margin-bottom-35"> <i class="fa fa-comments" ></i>Comments <span class="comments-amount">({{ number }})</span></h4> 
                         <ul>
                             {% if app.request.query.get("bad") == "bad" %}
                                 <h4 class="text-danger mt-4 mb-4"> Erreur ajout commentaire !, Bad words</h4>
@@ -86,7 +91,7 @@
                     </div>
 
 --------
-
+#}
                 </div>
             </div>
         </div>

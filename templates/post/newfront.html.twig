@@ -5,7 +5,9 @@
 {% block body %}
 <div style = "position:relative; left:350px; top:0px;">
     <h1>Create new Post</h1>
+    <br>
 {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+<br>
     {{ include('post/_form.html.twig') }}
 
     <a href="{{ path('app_post_front') }}">back to list</a>

@@ -6,6 +6,8 @@
     <h1>Post</h1>
 
 <div style = "position:relative; left:70px; top:20px;">
+       {# {% for post in posts %}
+        {% if post.active == "Ouvert" %}#}
     <table class="table">
         <tbody>
             <tr>
@@ -32,12 +34,27 @@
                 <th>Active</th>
                 <td>{{ post.active }}</td>
             </tr>
+             <tr>
+             
+               {# <th>commentaire</th>
+                
+                <td> <p class="blog-caption">{{ post.contenu| striptags | slice(0, 100) }} ....</p> /td> #}
+            </tr>
         </tbody>
     </table>
-
+  {#{% if blog_client.author == app.user %}
+                    <a > {{ include('post/_delete_form.html.twig') }}</a>
+                {% endif %} #}
     <a href="{{ path('app_post_index') }}">back to list</a>
 
     <a href="{{ path('app_post_edit', {'idPost': post.idPost}) }}">edit</a>
 
     {{ include('post/_delete_form.html.twig') }}
+
+   {#{% endif %}
+
+
+        {% endfor %}#}
+
+ 
 {% endblock %}

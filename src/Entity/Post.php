@@ -165,6 +165,10 @@ class Post
         return $this;
     }
 
+    /**
+     * Summary of getIdUser
+     * @return User|null
+     */
     public function getIdUser(): ?User
     {
         return $this->idUser;
@@ -210,6 +214,10 @@ class Post
 
         return $this;
     }
+    /**
+     * Summary of __toString
+     * @return string
+     */
     public function __toString()
     {
        return $this->titre;

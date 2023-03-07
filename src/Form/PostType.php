@@ -17,13 +17,13 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
+            
             ->add('description')
             ->add('date',DateTimeType::class, [
                 'data' => new \DateTime(),
             ])
             ->add('urlImg', FileType::class, array('data_class' => null))
-            
+            ->add('titre')
            //->add('active')
             //->add('idUser',EntityType::class,['class'=> User::class,
            //'choice_label'=>'nomUser',

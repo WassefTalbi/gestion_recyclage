@@ -200,7 +200,7 @@ class PostController extends AbstractController
             $post->setUrlImg($filename);
             
              $post->setDate(new \DateTime());
-        
+             $post->setActive("01");
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -223,51 +223,6 @@ class PostController extends AbstractController
     }
     
  
-   /* public function showfront(Publication $publication, EntityManagerInterface $entityManager,$id, Request $request): Response
-    { $em=$this->getDoctrine()->getManager();
-        $commentaires = $entityManager
-            ->getRepository(Commentaire::class)
-            ->findBy(['idPublication'=>$id]);
-        $query=$entityManager
-            ->createQuery("select count(s) from App\Entity\Commentaire s where s.idPublication=:id  ")
-            ->setParameter('id',$id);
-        $number=$query->getSingleScalarResult();
-        $dql = "SELECT AVG(e.note) AS rating FROM App\Entity\Commentaire e "."WHERE e.idPublication = :id  ";
-        $rating = $em->createQuery($dql)
-            ->setParameter('id', $id)
-            ->getSingleScalarResult();
-
-
-        $check = new Check( '../config/profanities.php');
-        $commentaires2 = new Commentaire();
-        $form = $this->createForm(CommentaireType::class, $commentaires2);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $verifier = $form['comment']->getData();
-            $hasProfanity = $check->hasProfanity($verifier);
-            if ($hasProfanity == false) {
-                $commentaires2->setIdPublication($publication);
-                $entityManager->persist($commentaires2);
-                $entityManager->flush();
-                $good="good";
-                return $this->redirectToRoute('app_publication_front_show',[
-                    "id"=>$id,"good"=>$good
-                ]);
-            }else {
-                $bad="bad";
-                return $this->redirectToRoute('app_publication_front_show',[
-                    "id"=>$id,"bad"=>$bad
-                ]);
-            }
-        }
-        return $this->render('publication/show_front.html.twig', [
-            'publication' => $publication,'commentaires'=>$commentaires,'commentairesform'=>$commentaires2,
-            'form' => $form->createView(),'idpub'=>$id,'number'=>$number,'rating'=>$rating,
-        ]);
-    }*/
-    
    /* #[Route('/{idPost}/front', name: 'app_post_showfront', methods: ['GET'])]
     public function showf(Post $post , EntityManagerInterface $entityManager,$id= null, Request $request): Response
     {
@@ -379,9 +334,102 @@ public function showf(Post $post): Response
 
         return $this->redirectToRoute('app_post_front', [], Response::HTTP_SEE_OTHER);
     }
+     
+    #[Route('/{idPost}/close', name: 'admin-close-blog', methods: ['POST'])]
    
-    
 
+    public function deleteBlogByAdmin(Request $request, int $idpost, EntityManagerInterface $entityManager): Response
+{
+    $postRepository = $entityManager->getRepository(Post::class);
+    $post = $postRepository->find($idpost);
+    
+    if (!$post) {
+        throw $this->createNotFoundException('Le post avec l\'identifiant '.$idpost.' n\'existe pas.');
+    }
+
+    $post->setActive('0');
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_post_index');
+}
+/*
+#[Route('/{idPost}/reopen', name: 'admin-reopen-blog', methods: ['POST'])]
+
+    public function reopenBlog($idPost,Post $post): Response
+    {
+        $rep = $this->getDoctrine()->getRepository(Post::class);
+        $post = $rep->find($idPost);
+        //check if the parameters are correct
+        if ($post == null) {
+            return $this->redirectToRoute("erreur-back");
+        }
+        $user = $this->getUser();//badel user el connecter
+
+            $sid = "AC129fc18c3e71f7ed7330e630d246af42"; // Your Account SID from www.twilio.com/console
+            $token = "e88bb294159ad8317d59afc2943f0238"; // Your Auth Token from www.twilio.com/console
+/*
+            $client = new Twilio($sid, $token);
+            $message = $client->messages->create(
+                '+216'.$user->getNumTel(), // Text this number
+                [
+                    'from' => '+14793232793', // From a valid Twilio number
+                    'body' => 'Félicitations! votre blog a été accepté! Visiter notre site pour le voir. '
+                ]
+            );
+
+
+ 
+        $post->setActive("1");
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('app_post_index', ['id' => $post->getId()]);
+    }*/
+/*
+    #[Route('/DownloadpostData', name: 'DownloadpostData', methods: ['POST'])]
+    public function DownloadpostData()
+    {
+        $post= $this->getDoctrine()
+        ->getRepository(Post::class)
+        ->findAll();
+
+        // On définit les options du PDF
+        $pdfOptions = new Options();
+        // Police par défaut
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+
+        // On instancie Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+
+        // On génère le html
+        $html = $this->renderView('post/download.html.twig',
+            ['post'=>$post ]);
+
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // On génère un nom de fichier
+        $fichier = 'Tableau des publication.pdf';
+
+        // On envoie le PDF au navigateur
+        $dompdf->stream($fichier, [
+            'Attachment' => true
+        ]);
+
+        return new Response();
+
+    }
+
+*/
 
    /**
      * @Route("/updatePost", name="updatePost")

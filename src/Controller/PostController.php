@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,13 +17,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
+use App\Entity\Commentaire;
+use App\Form\CommentaireType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Gedmo\Sluggable\Util\Urlizer;
+use mofodojodino\ProfanityFilter\Check;
+
+
 #[Route('/post')]
 class PostController extends AbstractController
 {
-
-
-
-
     
     /**
      * @Route("/registerPost", name="registerPost")
@@ -40,10 +45,6 @@ class PostController extends AbstractController
         $json=$serializer->serialize($Post,'json',['groups'=>'Post']);
         return new Response($json);
     }
-
-
-
-    
 
 /**
      * @Route("/postlist",name="Postlist")
@@ -82,13 +83,17 @@ class PostController extends AbstractController
         ]);
     }
     
-
+ 
     #[Route('/front', name: 'app_post_front', methods: ['GET','POST'])]
-    public function indexf(EntityManagerInterface $entityManager,Request $request,PostRepository $postRepository): Response
+    public function indexf(EntityManagerInterface $entityManager,Request $request,PostRepository $postRepository /*, PaginatorInterface $paginator*/): Response
     {
+       // $posts = $paginator->paginate(
         $posts = $entityManager
             ->getRepository(Post::class)
             ->findAll();
+          /*   $request->query->getInt('page', 1),
+            3
+        );*/
             /////////
             $back = null;
             
@@ -216,13 +221,107 @@ class PostController extends AbstractController
             'post' => $post,
         ]);
     }
-    #[Route('/{idPost}/front', name: 'app_post_showfront', methods: ['GET'])]
-    public function showf(Post $post): Response
+    
+ 
+   /* public function showfront(Publication $publication, EntityManagerInterface $entityManager,$id, Request $request): Response
+    { $em=$this->getDoctrine()->getManager();
+        $commentaires = $entityManager
+            ->getRepository(Commentaire::class)
+            ->findBy(['idPublication'=>$id]);
+        $query=$entityManager
+            ->createQuery("select count(s) from App\Entity\Commentaire s where s.idPublication=:id  ")
+            ->setParameter('id',$id);
+        $number=$query->getSingleScalarResult();
+        $dql = "SELECT AVG(e.note) AS rating FROM App\Entity\Commentaire e "."WHERE e.idPublication = :id  ";
+        $rating = $em->createQuery($dql)
+            ->setParameter('id', $id)
+            ->getSingleScalarResult();
+
+
+        $check = new Check( '../config/profanities.php');
+        $commentaires2 = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaires2);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $verifier = $form['comment']->getData();
+            $hasProfanity = $check->hasProfanity($verifier);
+            if ($hasProfanity == false) {
+                $commentaires2->setIdPublication($publication);
+                $entityManager->persist($commentaires2);
+                $entityManager->flush();
+                $good="good";
+                return $this->redirectToRoute('app_publication_front_show',[
+                    "id"=>$id,"good"=>$good
+                ]);
+            }else {
+                $bad="bad";
+                return $this->redirectToRoute('app_publication_front_show',[
+                    "id"=>$id,"bad"=>$bad
+                ]);
+            }
+        }
+        return $this->render('publication/show_front.html.twig', [
+            'publication' => $publication,'commentaires'=>$commentaires,'commentairesform'=>$commentaires2,
+            'form' => $form->createView(),'idpub'=>$id,'number'=>$number,'rating'=>$rating,
+        ]);
+    }*/
+    
+   /* #[Route('/{idPost}/front', name: 'app_post_showfront', methods: ['GET'])]
+    public function showf(Post $post , EntityManagerInterface $entityManager,$id= null, Request $request): Response
     {
+        $em=$this->getDoctrine()->getManager();
+        $commentaires = $entityManager
+            ->getRepository(Commentaire::class)
+            ->findBy(['idPost'=>$id]);
+        $query=$entityManager
+            ->createQuery("select count(s) from App\Entity\Commentaire s where s.idPost=:id  ")
+            ->setParameter('idPost',$id);
+        $number=$query->getSingleScalarResult();
+        $dql = "SELECT AVG(e.note) AS rating FROM App\Entity\Commentaire e "."WHERE e.idPost = :id  ";
+        $rating = $em->createQuery($dql)
+            ->setParameter('idPost', $id)
+            ->getSingleScalarResult();
+
+
+        $check = new Check( '../config/profanities.php');
+        $commentaires2 = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaires2);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $verifier = $form['contenu']->getData();
+            $hasProfanity = $check->hasProfanity($verifier);
+            if ($hasProfanity == false) {
+                $commentaires2->setIdPost($post);
+                $entityManager->persist($commentaires2);
+                $entityManager->flush();
+                $good="good";
+                return $this->redirectToRoute('app_post_showfront',[
+                    "idPost"=>$id,"good"=>$good
+                ]);
+            }else {
+                $bad="bad";
+                return $this->redirectToRoute('app_post_showfront',[
+                    "idPost"=>$id,"bad"=>$bad
+                ]);
+            }
+        }
         return $this->render('post/showfront.html.twig', [
-            'post' => $post,
+            'post' => $post,'commentaires'=>$commentaires,'commentairesform'=>$commentaires2,
+            'form' => $form->createView(),'idpost'=>$id,'number'=>$number,'rating'=>$rating,
         ]);
     }
+*/
+#[Route('/{idPost}/front', name: 'app_post_showfront', methods: ['GET'])]
+public function showf(Post $post): Response
+{
+    return $this->render('post/showfront.html.twig', [
+        'post' => $post,
+    ]);
+}
 
     #[Route('/{idPost}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response

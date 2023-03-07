@@ -33,6 +33,7 @@
                                     <th>Date</th>
                                     <td>{{ post.date ? post.date|date('Y-m-d') : '' }}</td>
                                 </tr>
+                               {#   <li><a href="#">{{ number }} contenu</a></li>#}
                             </tbody>
                         </table>
                     </div>
@@ -42,6 +43,50 @@
                         {{ include('post/_deletef_form.html.twig') }}
                         <a href="{{ path('app_post_front') }}" class="btn btn-secondary">Back to list</a>
                     </div>
+                    
+
+                    ----
+                    
+ <div class="clearfix"></div>
+
+
+                    <section class="comments">
+                        <h4 class="headline_part margin-top-20 margin-bottom-35"> <i class="fa fa-comments" ></i>Comments <span class="comments-amount">({{ number }})</span></h4>
+                        <ul>
+                            {% if app.request.query.get("bad") == "bad" %}
+                                <h4 class="text-danger mt-4 mb-4"> Erreur ajout commentaire !, Bad words</h4>
+                            {% endif %}
+                            {% if app.request.query.get("good") == "good" %}
+                                <h4 class="text-success mt-4 mb-4"> commentaire ajouté avec succes</h4>
+                            {% endif %}
+                            
+                        </ul>
+                    </section>
+                    <div class="clearfix"></div>
+
+                    <div id="utf_add_review" class="utf_add_review-box">
+
+                        <h3 class="utf_listing_headline_part margin-bottom-35"   > <i class="fa fa-pencil-square-o"></i> Ajouter votre commentaire</h3>
+
+                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+                        <fieldset>
+                            <div class="row">
+                              
+                                <div class="col-md-4">
+                                    {{ form_row(form.date) }}
+                                </div>
+                            </div>
+                            <div>
+                                {{ form_row(form.contenu) }}
+                            </div>
+                        </fieldset>
+                        <button class="button">Poster</button>
+                        <div class="clearfix"></div>
+                        {{ form_end(form) }}
+                    </div>
+
+--------
+
                 </div>
             </div>
         </div>

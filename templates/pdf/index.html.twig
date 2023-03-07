@@ -1,0 +1,29 @@
+<img src="{{ asset('front/images/image.jpg') }}"  style=" width:60px; height:100px; "alt="Description de votre image">
+
+                <table  border="1">
+                    <thead >
+                    <h1>liste des commentaires</h1>
+                        <tr>
+                            <th>idComntr</th>
+                
+                <th>contenu</th>
+               
+                
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for com in commentaire %}
+                            <tr>
+                                <td>{{ com.getIdComntr() }}</td>
+                                
+                               
+                               {# <td>{{ com.getDate() }}</td>#}
+                                <td>{{ com.getContenu() }}</td>
+                                
+                            
+                               
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>

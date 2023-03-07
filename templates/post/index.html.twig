@@ -41,6 +41,19 @@
         {% endfor %}
         </tbody>
     </table>
+{# <a href="{{ path('DownloadProduitsData') }}" class="btn btn-dark waves-effect waves-light">Download PDF</a>
 
+    <a href="{{ path('app_publication_new') }}">Create new</a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>#}
    {# <a href="{{ path('app_post_new') }}">Create new</a>#}
 {% endblock %}

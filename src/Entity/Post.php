@@ -6,6 +6,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use symfony\component\validator\constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+
+
+use App\Repository\PublicationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Post
  *
@@ -43,11 +49,11 @@ class Post
      */
      #[Groups("Post")]
     private $date;
-
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="url_img", type="string", length=255, nullable=false)
+     * @ORM\Column(name="url_img", type="string", length=255, nullable=true)
      */
      #[Groups("Post")]
     private $urlImg;
@@ -82,6 +88,17 @@ class Post
      #[Groups("Post")]
     private $idUser;
 
+     /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="idPost", cascade={"remove"})
+     *
+     */
+    private $commentaires;
+  
+    function _construct() {
+        $this->date=new \DateTime();
+        $this->commentaires = new ArrayCollection();
+    }
+
     public function getIdPost(): ?int
     {
         return $this->idPost;
@@ -103,6 +120,7 @@ class Post
     {
         return $this->date;
     }
+    
 
     public function setDate(\DateTimeInterface $date): self
     {
@@ -161,6 +179,40 @@ class Post
     public function __construct()
     {
         $this->date = new \DateTime('now');
+    }
+
+     /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setIdPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getIdPost() === $this) {
+                $commentaire->setIdpost(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+       return $this->titre;
     }
 
 }

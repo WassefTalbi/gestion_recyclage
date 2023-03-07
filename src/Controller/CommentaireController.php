@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PdfGeneratorService;
 
 #[Route('/commentaire')]
 class CommentaireController extends AbstractController
@@ -54,6 +55,7 @@ class CommentaireController extends AbstractController
             'form' => $form,
         ]);
     }
+    
     #[Route('/newfront', name: 'app_commentaire_newfront', methods: ['GET', 'POST'])]
     public function newfront(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -134,4 +136,28 @@ class CommentaireController extends AbstractController
 
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+    #[Route('/pdf/commentaire', name: 'generator_service')]
+    public function pdfService(): Response
+    { 
+        $commentaire= $this->getDoctrine()
+        ->getRepository(Commentaire::class)
+        ->findAll();
+
+   
+
+        $html =$this->renderView('pdf/index.html.twig', ['commentaire' => $commentaire]);
+        $pdfGeneratorService=new PdfGeneratorService();
+        $pdf = $pdfGeneratorService->generatePdf($html);
+
+        return new Response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"',
+        ]);
+       
+    }
+    
 }

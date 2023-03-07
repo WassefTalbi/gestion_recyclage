@@ -24,10 +24,10 @@ class PostType extends AbstractType
             ])
             ->add('urlImg', FileType::class, array('data_class' => null))
             
-           ->add('active')
-            ->add('idUser',EntityType::class,['class'=> User::class,
-           'choice_label'=>'nomUser',
-           'label'=>'idUser'])
+           //->add('active')
+            //->add('idUser',EntityType::class,['class'=> User::class,
+           //'choice_label'=>'nomUser',
+           //'label'=>'idUser'])
            
            
         ;

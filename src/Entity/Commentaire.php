@@ -11,6 +11,7 @@ use symfony\component\validator\constraints as Assert;
  * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_post", columns={"id_post"})})
  * @ORM\Entity
  */
+
 class Commentaire
 {
     /**
@@ -20,6 +21,7 @@ class Commentaire
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+
     private $idComntr;
 
     /**
@@ -43,12 +45,13 @@ class Commentaire
     /**
      * @var \Post
      *
-     * @ORM\ManyToOne(targetEntity="Post")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="commentaires", cascade={"remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_post", referencedColumnName="id_post")
      * })
      */
     private $idPost;
+
 
     public function getIdComntr(): ?int
     {

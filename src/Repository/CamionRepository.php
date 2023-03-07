@@ -39,28 +39,43 @@ class CamionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Camion[] Returns an array of Camion objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findCamionDisponible($date)
+    {
 
-//    public function findOneBySomeField($value): ?Camion
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $camion = $this->createQueryBuilder('c')
+            ->leftJoin('c.missions', 'm')
+            ->addSelect('m')
+            ->andWhere('m.dateMission IS NULL OR m.dateMission != :date')
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+
+        return $camion;
+    }
+
+    //    /**
+    //     * @return Camion[] Returns an array of Camion objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Camion
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

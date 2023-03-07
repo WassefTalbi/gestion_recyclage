@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form; 
 
 use App\Entity\Mission;
 use Symfony\Component\Form\AbstractType;
@@ -20,6 +20,7 @@ class MissionType extends AbstractType
                 'format' => 'yyyy-MM-dd',
 
             ])
+            
             ->add('Ajouter', SubmitType::class);
     }
 

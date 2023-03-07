@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/signalisation')]
 class SignalisationController extends AbstractController
 {
+    //method permet to show all signaliation to the client frontoffice
     #[Route('/', name: 'app_signalisation_index', methods: ['GET'])]
     public function index(SignalisationRepository $signalisationRepository): Response
     {
@@ -22,6 +23,7 @@ class SignalisationController extends AbstractController
             'signalisations' => $signalisationRepository->findAll(),
         ]);
     }
+    //method permet to show all signaliation to the admin backoffice
     #[Route('/all', name: 'app_signalisation_allSignalisation', methods: ['GET'])]
     public function getAll(SignalisationRepository $signalisationRepository): Response
     {
@@ -29,34 +31,26 @@ class SignalisationController extends AbstractController
             'signalisations' => $signalisationRepository->findAll(),
         ]);
     }
-
+    
+    //method permet to create new signalisation
     #[Route('/new', name: 'app_signalisation_new', methods: ['GET', 'POST'])]
     public function new(Request $request,  SignalisationRepository $signalisationRepository): Response
     {
         $signalisation = new Signalisation();
         $form = $this->createForm(SignalisationType::class, $signalisation);
-
+        //      dd($form);
 
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $latitude = $request->request->get('latitude');
-
-            $longitude = $request->request->get('longitude');
-
             $uploadFile = $form['urlphoto']->getData();
             $filename = md5(uniqid()) . '.' . $uploadFile->guessExtension(); //cryptage d image
             $uploadFile->move($this->getParameter('kernel.project_dir') . '/public/uploads/signal_image', $filename);
             $signalisation->setUrlphoto($filename);
             $signalisation->setDateSignal(new DateTime());
-
-            $signalisation->setLat($latitude);
-            $signalisation->setLon($longitude);
-
+            $signalisation->setTraited(false);
             $signalisationRepository->save($signalisation, true);
-
-
             return $this->redirectToRoute('app_signalisation_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -65,7 +59,7 @@ class SignalisationController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    //method permet to show signalisation by id
     #[Route('/{id}', name: 'app_signalisation_show', methods: ['GET'])]
     public function show(Signalisation $signalisation): Response
     {
@@ -74,14 +68,8 @@ class SignalisationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/traiter', name: 'app_signalisation_traiter', methods: ['GET'])]
-    public function traiter(Signalisation $signalisation): Response
-    {
-        return $this->render('signalisation/traiter.html.twig', [
-            'signalisation' => $signalisation,
-        ]);
-    }
 
+    //method permet to update signalisation by id
     #[Route('/{id}/edit', name: 'app_signalisation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Signalisation $signalisation, SignalisationRepository $signalisationRepository): Response
     {
@@ -99,7 +87,7 @@ class SignalisationController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    //method permet to delete signalisation by id
     #[Route('/{id}', name: 'app_signalisation_delete', methods: ['POST'])]
     public function delete(Request $request, Signalisation $signalisation, SignalisationRepository $signalisationRepository): Response
     {

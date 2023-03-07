@@ -1,8 +1,9 @@
 
 
 <div class="container">
-  
- {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+  <div class="row">
+    <div class="col"> 
+     {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
             <div class="form-group mb-3">
                 <label for="description">Description</label>
                  {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
@@ -12,34 +13,41 @@
             </div>
               <div class="form-group mb-3">
                 <label for="ville">ville</label>
-                 {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                 {{ form_widget(form.ville, {'attr': {'class': 'form-control ville','readonly':true}}) }}
                     
                  {{ form_errors(form.ville, {'attr': {'class': 'text-danger'}}) }}
                      
             </div>
               <div class="form-group mb-3">
                 <label for="region">region</label>
-                 {{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}
+                 {{ form_widget(form.region, {'attr': {'class': 'form-control region','readonly':true}}) }}
                     
                  {{ form_errors(form.region, {'attr': {'class': 'text-danger'}}) }}
                      
             </div>
               <div class="form-group mb-3">
-                <label for="description">rue</label>
-                 {{ form_widget(form.rue, {'attr': {'class': 'form-control'}}) }}
+                <label for="rue">rue</label>
+                 {{ form_widget(form.rue, {'attr': {'class': 'form-control rue','readonly':true}}) }}
                     
                  {{ form_errors(form.rue, {'attr': {'class': 'text-danger'}}) }}
                      
             </div>
-            <div class="form-group">
-                <label for="lieu">Lieu Signalisation</label>
-          <input type="hidden" class="lat" id="latitude" name="latitude" value="{{ form.vars.value.lat }}">
-                <input type="hidden" id="longitude" class="lng" name="longitude" value="{{ form.vars.value.lon }}">
-
-
+              <div class="form-group mb-3">
+                <label for="latitude">latidude</label>
+                 {{ form_widget(form.lat, {'attr': {'class': 'form-control lat','readonly':true}}) }}
+                    
+                 {{ form_errors(form.lat, {'attr': {'class': 'text-danger'}}) }}
+                     
             </div>
-                   <div id="marker-message" style="display: none;">Please choose a place on the map with a marker.</div>
-                    <div id="mapid" style="height: 400px;"></div>
+            <div class="form-group mb-3">
+                <label for="longitude">longitude</label>
+                 {{ form_widget(form.lon, {'attr': {'class': 'form-control lon','readonly':true}}) }}
+                    
+                 {{ form_errors(form.lon, {'attr': {'class': 'text-danger'}}) }}
+                     
+            </div>
+            
+            
                         <div class="form-group">
 
                             <div class="col-sm-12">
@@ -61,43 +69,84 @@
                             <button type="reset" class="btn btn-secondary mt-2 ">reset</button>
 
                         </div>
-  {{ form_end(form) }}
+     {{ form_end(form) }}
+    </div>
+  <div class="col"> 
+     
+                    <div id="mapid" style="height: 400px;"></div>
+                
+  </div>
+      
+
+   
+  </div>
+
   
 </div>
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
-     var map = L.map('mapid').setView([	36.862499, 10.195556], 13);
-   
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-}).addTo(map);
-const marker = L.marker([0, 0]).addTo(map);
+      var map = L.map('mapid').setView([	36.862499, 10.195556], 13);
+    
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+  }).addTo(map);
+  const marker = L.marker([0, 0]).addTo(map);
 
-var markerMessage = document.getElementById("marker-message");
-try {
-    window.onload = function() {
-   map.on('click', function(e) {
+  var markerMessage = document.getElementById("marker-message");
+  try {
+      window.onload = function() {
+    map.on('click', function(e) {
+    
+     
+          var pos=e.latlng;
+    
+      console.log(pos);
+    marker.setLatLng(e.latlng);
+
+     console.log("lllllll");
+      let url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + pos.lat + '&lon=' + pos.lng;
+                          fetch(url)
+                              .then(response => response.json())
+                              .then(data => {
+                                  // The address is in the 'display_name' property of the response object
+                                  console.log("response of nominatim",data);
+                                 // console.log("lllllll");
+                                  let region=data.address.state;
+                                      if(data.address.county==='undefined' ){
+                            
+                                    var ville=data.address.town;
+                                  }else{
+                                          var ville=data.address.state_district;
+      
+                                  }
+                                
+                          
+                                  
+                                  if(data.address.suburb==='undefined' || data.address.road==='undefined'){
+                            
+                                    var full_rue=data.display_name;
+                                  }else{
+                                          var full_rue=data.address.suburb+" , "+data.address.road;      
+                                  }
+                        
+
+                                
+                                  document.querySelector(".region").value=region;
+                                  document.querySelector(".ville").value=ville;
+                                  document.querySelector(".rue").value=full_rue;
+                                  document.querySelector(".lat").value=pos.lat;
+                                  document.querySelector(".lon").value=pos.lng;
+                               
+                              });
+
+  });
   
-     markerMessage.style.display = "none";
-        let pos=e.latlng;
-    console.log(e);
-    console.log(pos);
-   marker.setLatLng(e.latlng);
-   document.querySelector(".lat").value=pos.lat;
-   document.querySelector(".lng").value=pos.lng;
-   console.log("heyyyy",document.querySelector(".lat").value);
-
-});
-if(marker.getLatLng()==null||marker.getLatLng().lat===0){
-    console.log("wassef");
-     markerMessage.style.display = "block";
-}
-};
-   
-} catch (error) {
-    console.error(error);
-}
+  };
+    
+  } catch (error) {
+      console.error(error);
+  }
 
 
 

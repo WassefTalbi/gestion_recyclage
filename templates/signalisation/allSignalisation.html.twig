@@ -5,42 +5,47 @@
 {% block dashboard %}
 
 
-
-
 <div class="container">
-    
+     
     <div class="row">
-       {% for signalisation in signalisations %}
-      <div class=col-md-6> 
-           <div class="panel-default text-center">
-              <div class="panel-heading  ">
-            <h4>  {{ signalisation.description }}</h4>
-              </div>
-               <div class="panel-body">
-                 <div>
-                  <img src="{{ asset('uploads/signal_image/') ~ signalisation.urlphoto }}" alt="camion photo" height="200" width="200">
-                 </div>
-                  <div> 
-                   <a href="{{ path('app_signalisation_traiter', {'id': signalisation.id}) }}" class="btn btn-default btn-margin" id="btn-edit" 
-                      aria-label="Settings">
-                      traiter
-                    <i class="bi bi-pencil-square"></i>
-                   </a> 
-                      <a href="{{ path('app_signalisation_show', {'id': signalisation.id}) }}" class="btn btn-default btn-margin" id="btn-edit" 
-                           aria-label="Settings">
-                           details
-                          <i class="bi bi-ticket-detailed"></i>
-                       </a>
-                  </div>
-              </div>
-              
-            </div>
+    {% if app.flashes('success') %}
+      <div class="alert alert-success">
+        traiter avec success
       </div>
+   {% endif %}
+        {% for signalisation in signalisations %}
+            <div class="col-6"> 
+               <div class="card {{ signalisation.traited == true ? "text-bg-secondary" : "text-bg-warning" }} text-center">
+                  <div class="card-heading  ">
+                  <h4>  {{ signalisation.ville }} </h4>
+                  </div>
+                     <div class="card-body">
+                     
+                        <img src="{{ asset('uploads/signal_image/') ~ signalisation.urlphoto }}" alt="camion photo" height="200" width="200">
+                                             <p class="card-text">{{ signalisation.description }} </p>
+
+                        <div> 
+                        {% if signalisation.traited == false  %}
+                           <a href="{{ path('app_mission_signalisation', {'idSignal': signalisation.id}) }}" class="btn btn-default btn-margin " id="btn-edit" 
+                              aria-label="Settings">
+                              traiter
+                           <i class="bi bi-pencil-square"></i>
+                           </a>                       
+                            {% endif %}
+                      
+                           <a href="{{ path('app_mission_details', {'id': signalisation.id}) }}" class="btn btn-default btn-margin" id="btn-edit" 
+                                 aria-label="Settings">
+                                 details
+                              <i class="bi bi-ticket-detailed"></i>
+                           </a>
+                        </div>
+                  </div> 
+                  
+                  </div>
+            </div>
          {% endfor %}
     </div>
-   <div class="row">
-       <div id="mapid"> </div>
-    </div>
+  
 
 </div>
 

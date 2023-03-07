@@ -38,6 +38,14 @@ class SignalisationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function countByRegion()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.region, COUNT(s.id) as signalisation_count')
+            ->groupBy('s.region')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Signalisation[] Returns an array of Signalisation objects

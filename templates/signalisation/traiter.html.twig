@@ -7,27 +7,71 @@
 <h1>Traiter signalisation</h1>
 
 <div class="container">
-  <div>   <i class="bi bi-arrow-left-square-fill"></i><a href="{{ path('app_signalisation_allSignalisation') }}">Liste signalisation</a></div>
 
-    <div class="panel-default">
-         <div class="panel-heading">
-             <h1> {{ signalisation.region }}</h1>
-         </div>
-           <div class="panel-body">
-                  <div>
-                     <img src="{{ asset('uploads/signal_image/') ~ signalisation.urlphoto }}" alt="signalisation photo" height="300" width="300">
-                                  <div>  {{ signalisation.ville }}  {{ signalisation.rue}} {{ signalisation.dateSignal ? signalisation.dateSignal|date('Y-m-d') : '' }}</div>
-
-                  </div>
-             
-                    
-         </div>
+    <!-- icon && lien list signalisation -->
+    <div> 
+            <i class="bi bi-arrow-left-square-fill">
+            </i>
+            <a href="{{ path('app_signalisation_allSignalisation') }}">Liste signalisation
+            </a>
     </div>
+
+
+  <div class="row">  
+          
+       <div class="col">
+                    <h4> create mission</h4>
+                    <div class="container">
+                            {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}                   
+                                            {{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
+                                                
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dateMission">Date Mission</label>
+                                            {{ form_widget(form.dateMission) }}
+                                            {{ form_errors(form.dateMission) }}
+
+                                        </div>
+                                          <div class="form-group text-right m-b-0">
+                                              {{ form_widget(form.Ajouter, {'attr': {'class': 'btn btn-info mt-2 text-white'} }) }}
+
+                                              <button type="reset" class="btn btn-secondary mt-2 ">reset</button>
+
+                                         </div>
+                            {{ form_end(form) }}
+
+                      </div>
+      </div>
+      <div class="col">       
+            <div id="mapid"> </div>
+      </div>
+       
+    </div>
+     
 
 </div>
  
+  
+{% endblock %}
+{% block mapjs %}
+<script>
+      
 
+        //initialize la carte
+        var mymap = L.map('mapid').setView([{{ signalisation.lat|json_encode|raw }}, {{ signalisation.lon|json_encode|raw }}], 13);
+          //on charge les tuile
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+       
+          console.log({{ signalisation.lat|json_encode|raw }}, {{ signalisation.lon|json_encode|raw }})
+          L.marker([{{ signalisation.lat|json_encode|raw }}, {{ signalisation.lon|json_encode|raw }}]).addTo(mymap)
+            .bindPopup("<b>Signalisation!</b><br />Tunisia. "+{{ signalisation.region|json_encode|raw }}).openPopup();
+        
 
-
-
+ 
+     </script>
 {% endblock %}

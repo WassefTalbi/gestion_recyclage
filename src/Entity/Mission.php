@@ -33,6 +33,14 @@ class Mission
     #[ORM\ManyToOne(targetEntity: Camion::class, inversedBy: 'missions')]
     private  $camion;
 
+    #[ORM\OneToOne(mappedBy: 'mission', cascade: ['persist', 'remove'])]
+    private ?Signalisation $signalisation = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $typeMission = null;
+
+   
+
     public function __construct()
     {
         $this->collecteurs = new ArrayCollection();
@@ -74,7 +82,12 @@ class Mission
     {
         return $this->collecteurs;
     }
+    public function setCollecteurs(Collection $collecteurs): self
+    {
+        $this->collecteurs = $collecteurs;
 
+        return $this;
+    }
     public function addCollecteur(User $collecteur): self
     {
         if (!$this->collecteurs->contains($collecteur)) {
@@ -102,4 +115,39 @@ class Mission
 
         return $this;
     }
+
+    public function getSignalisation(): ?Signalisation
+    {
+        return $this->signalisation;
+    }
+
+    public function setSignalisation(?Signalisation $signalisation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($signalisation === null && $this->signalisation !== null) {
+            $this->signalisation->setMission(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($signalisation !== null && $signalisation->getMission() !== $this) {
+            $signalisation->setMission($this);
+        }
+
+        $this->signalisation = $signalisation;
+
+        return $this;
+    }
+
+    public function getTypeMission(): ?string
+    {
+        return $this->typeMission;
+    }
+
+    public function setTypeMission(string $typeMission): self
+    {
+        $this->typeMission = $typeMission;
+
+        return $this;
+    }
+
 }

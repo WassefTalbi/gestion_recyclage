@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SignalisationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,7 +23,7 @@ class Signalisation
     private  $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    
+
     private  $dateSignal = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -44,12 +46,24 @@ class Signalisation
     private $rue = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-
+    #[Assert\NotBlank(message: 'Please choose a place on the map with a marker.click on map')]
     private  $lat = null;
-
+    #[Assert\NotBlank(message: 'Please choose a place on the map with a marker.click on map')]
     #[ORM\Column(type: 'string', length: 255)]
 
     private  $lon = null;
+
+    #[ORM\OneToOne(inversedBy: 'signalisation', cascade: ['persist', 'remove'])]
+    private ?Mission $mission = null;
+
+    #[ORM\Column]
+    private ?bool $traited = null;
+
+
+
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +164,30 @@ class Signalisation
     public function setLon(string $lon): self
     {
         $this->lon = $lon;
+
+        return $this;
+    }
+
+    public function getMission(): ?Mission
+    {
+        return $this->mission;
+    }
+
+    public function setMission(?Mission $mission): self
+    {
+        $this->mission = $mission;
+
+        return $this;
+    }
+
+    public function isTraited(): ?bool
+    {
+        return $this->traited;
+    }
+
+    public function setTraited(bool $traited): self
+    {
+        $this->traited = $traited;
 
         return $this;
     }

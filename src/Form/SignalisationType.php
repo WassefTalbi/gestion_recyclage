@@ -21,6 +21,8 @@ class SignalisationType extends AbstractType
             ->add('ville')
             ->add('region')
             ->add('rue')
+            ->add('lat')
+            ->add('lon')
             ->add('Ajouter', SubmitType::class);
     }
 

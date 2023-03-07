@@ -26,6 +26,7 @@
                 <td>
                     <a class="btn btn-success" href="{{ path('app_commentaire_showfront', {'idComntr': commentaire.idComntr}) }}">show</a>
                     <a class="btn btn-primary" href="{{ path('app_commentaire_editfront', {'idComntr': commentaire.idComntr}) }}">edit</a>
+                     <a href="{{ path('app_commentaire_deletef', {'idComntr': commentaire.idComntr}) }}">delete</a>
                 </td>
             </tr>
         {% else %}
@@ -36,6 +37,5 @@
         </tbody>
     </table>
 
-    <a class="btn btn-success" href="{{ path('app_commentaire_newfront') }}">Create new</a>
 </div>
 {% endblock %}

@@ -64,10 +64,11 @@ class CommentaireController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_post_front', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_commentaire_indexfront', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('commentaire/newfront.html.twig', [
@@ -136,7 +137,16 @@ class CommentaireController extends AbstractController
 
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/{idComntr}/f', name: 'app_commentaire_deletef', methods: ['POST'])]
+    public function deletef(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$commentaire->getIdComntr(), $request->request->get('_token'))) {
+            $entityManager->remove($commentaire);
+            $entityManager->flush();
+        }
 
+        return $this->redirectToRoute('app_commentaire_indexfront', [], Response::HTTP_SEE_OTHER);
+    }
 
 
 

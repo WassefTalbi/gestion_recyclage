@@ -1,16 +1,13 @@
-<img src="{{ asset('front/images/image.jpg') }}"  style=" width:60px; height:100px; "alt="Description de votre image">
+<img src="{{ asset('admin/assets/img/rec.png') }}"  style=" width:60px; height:100px; "alt="Description de votre image">
 
                 <table  border="1">
                     <thead >
-                    <h1>liste des commentaires</h1>
+                     <h1>liste des commentaires</h1>
                         <tr>
                             <th>idComntr</th>
                 
-                <th>contenu</th>
-               
-                
-                          
-                        </tr>
+                             <th>contenu</th>
+                             </tr>
                     </thead>
                     <tbody>
                         {% for com in commentaire %}
@@ -18,7 +15,7 @@
                                 <td>{{ com.getIdComntr() }}</td>
                                 
                                
-                               {# <td>{{ com.getDate() }}</td>#}
+                               
                                 <td>{{ com.getContenu() }}</td>
                                 
                             

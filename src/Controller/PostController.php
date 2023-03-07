@@ -16,18 +16,75 @@ use App\Repository\PostRepository;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Gedmo\Sluggable\Util\Urlizer;
 use mofodojodino\ProfanityFilter\Check;
-
+use Swift_Message;
+use Swift_Mailer;
+use Swift_SmtpTransport;
 
 #[Route('/post')]
 class PostController extends AbstractController
 {
+
+
+    #[Route('/calendar', name: 'app_post_indexB' , methods: ['GET'])]
+    public function indexB (PostRepository $postRepository ){
+     $posts = $postRepository->findAll();
+//dd($posts);
+     $reservs= [];
+     foreach($posts as $post){
+        $reservs[] = [
+            'id'=> $post->getIdPost(),
+            'id_user' => $post->getIdUser(),
+            'start' => $post->getDate()->format('Y-m-d H:i:s'),
+           
+            'descp' => $post->getDescription(),
+
+        ];
+    
+     }
+     $data = json_encode($reservs);
+     return $this->render('post/calendar.html.twig', compact('data'));
+
+    }
+
+
+    #[Route('/calendar/{id}', name: 'app_post_indexA' , methods: ['GET'])]
+    public function indexA (PostRepository $postRepository, User $idUser  ){
+     $posts = $postRepository->findBy(['id_user' => $idUser->getId()]);
+
+     $reservs= [];
+     foreach($posts as $post){
+        $reservs[] = [
+            'id'=> $post->getIdPost(),
+            'id_user' => $post->getIdUser(),
+            'start' => $post->getDate()->format('Y-m-d H:i:s'),
+           
+            'descp' => $post->getDescription(),
+
+        ];
+    
+     }
+     $data = json_encode($reservs);
+     return $this->render('post/calendar.html.twig', compact('data'));
+
+    }
+
+
+   
+
+
+
+
+
+
+
+
     
     /**
      * @Route("/registerPost", name="registerPost")
@@ -71,16 +128,26 @@ class PostController extends AbstractController
 
 
 
-    #[Route('/', name: 'app_post_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    #[Route('/posts/{page?1}/{nbre?3}', name: 'app_post_index', methods: ['GET'])]
+    public function index(EntityManagerInterface $entityManager,$page,$nbre,ManagerRegistry $doctrine): Response
     {
-        $posts = $entityManager
-            ->getRepository(Post::class)
-            ->findAll();
+        $repository= $doctrine
+        ->getRepository(Post::class);
+        $nbPost=$repository->count([]);
 
-        return $this->render('post/index.html.twig', [
-            'posts' => $posts,
-        ]);
+        
+    // 24
+    $nbrePage = ceil($nbPost / intval($nbre)) ;
+
+    $posts = $repository->findBy([], [],$nbre, (intval($page) - 1 ) * $nbre);
+
+    return $this->render('post/index.html.twig', [
+        'posts' => $posts,
+        'isPaginated' => true,
+        'nbrePage' => $nbrePage,
+        'page' => $page,
+        'nbre' => $nbre
+    ]);
     }
     
  
@@ -203,6 +270,18 @@ class PostController extends AbstractController
              $post->setActive("01");
             $entityManager->persist($post);
             $entityManager->flush();
+            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+            ->setUsername('recycle.tunisia')
+            ->setPassword('ztntffukvpwraygm');
+        
+        $mailer = new Swift_Mailer($transport);
+        
+        $message = (new Swift_Message('Bon d achat '))
+            ->setFrom(['recycle.tunisia@gmail.com' => 'Recycle tunisia'])
+            ->setTo(["bani.aya@esprit.tn"])
+            ->setBody("hello");
+        
+        $mailer->send($message); 
 
             return $this->redirectToRoute('app_post_front', [], Response::HTTP_SEE_OTHER);
         }
@@ -276,6 +355,8 @@ public function showf(Post $post): Response
     return $this->render('post/showfront.html.twig', [
         'post' => $post,
     ]);
+
+    
 }
 
     #[Route('/{idPost}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
@@ -285,6 +366,12 @@ public function showf(Post $post): Response
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadFile = $form['urlImg']->getData();
+            $filename = md5(uniqid()) . '.' . $uploadFile->guessExtension(); //cryptage d image
+
+
+            $uploadFile->move($this->getParameter('kernel.project_dir') . '/public/uploads', $filename);
+            $post->setUrlImg($filename);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
@@ -302,6 +389,13 @@ public function showf(Post $post): Response
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadFile = $form['urlImg']->getData();
+            $filename = md5(uniqid()) . '.' . $uploadFile->guessExtension(); //cryptage d image
+
+
+            $uploadFile->move($this->getParameter('kernel.project_dir') . '/public/uploads', $filename);
+            $post->setUrlImg($filename);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_post_front', [], Response::HTTP_SEE_OTHER);

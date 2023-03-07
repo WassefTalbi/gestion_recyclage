@@ -28,6 +28,7 @@
                 <td>
                     <a href="{{ path('app_commentaire_show', {'idComntr': commentaire.idComntr}) }}">show</a>
                     <a href="{{ path('app_commentaire_edit', {'idComntr': commentaire.idComntr}) }}">edit</a>
+                      <a href="{{ path('app_commentaire_delete', {'idComntr': commentaire.idComntr}) }}">delete</a>
                 </td>
             </tr>
         {% else %}

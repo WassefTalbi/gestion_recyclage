@@ -1,0 +1,4 @@
+data:
+  path: /fc-load-Posts
+  defaults:
+    _controller: CalendarBundle\Controller\CalendarController:loadAction

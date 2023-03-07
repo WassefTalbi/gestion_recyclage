@@ -1,0 +1,57 @@
+
+{% extends 'admin/base.html.twig' %}
+
+
+
+
+{% block body %}
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+ <style>
+        #calendrier{
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+      <div id="calendrier">
+        <input type="hidden" class="medId">
+
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js" integrity="sha256-DBxkGZLxKsLKhz054qUpBqtotG00r9AELGpSigJujLg=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script>
+ 
+        window.onload = () => {
+            console.log("hiiiii");
+            let calendarElt = document.querySelector("#calendrier")
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek'
+                },
+                events: {{ data|raw }},
+                editable: true,
+                eventResizableFromStart: true
+            })
+            //edit from calendar
+           calendar.on('eventChange', (e) => {
+            let url = `/api/${e.post.idPost}/edit`;
+                let donnees = {
+                
+                    "descp": e.post.extendedProps.descp,
+                    "start": e.post.start,
+                   
+                    
+                }
+                console.log("yowzaaaaaa",donnees);
+                let xhr = new XMLHttpRequest
+                xhr.open("PUT", url)
+                xhr.send(JSON.stringify(donnees))
+            })
+            calendar.render()
+        }
+    </script>
+{% endblock %}

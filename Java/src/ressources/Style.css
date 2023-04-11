@@ -1,0 +1,13 @@
+.image-Buuton{
+    -fx-border-radius: 40px;
+    -fx-background-radius: 40; 
+    -fx-background-color: #ffffff;
+        -fx-text-fill: #46adc9;
+
+
+}
+.image-Buuton:hover
+{
+    -fx-background-color: #46adc9;
+    -fx-text-fill: #ffffff;
+}

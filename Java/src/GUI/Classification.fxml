@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ClassificationController">
+   <children>
+      <AnchorPane prefHeight="720.0" prefWidth="319.0" style="-fx-background-color: #0077B6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="146.0" fitWidth="260.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/logo%205edma%20tr.png" />
+               </image>
+            </ImageView>
+            <JFXButton layoutX="84.0" layoutY="279.0" onAction="#redirectToAnnonce" prefHeight="45.0" prefWidth="167.0" text="Annonce" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="80.0" layoutY="338.0" prefHeight="45.0" prefWidth="167.0" text="Classification" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </JFXButton>
+         </children></AnchorPane>
+      <TableView fx:id="table" layoutX="647.0" layoutY="130.0" onMouseClicked="#getSelected" prefHeight="469.0" prefWidth="428.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="647.0" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="130.0">
+        <columns>
+          <TableColumn fx:id="col_id" prefWidth="92.4285888671875" text="ID" visible="false" />
+          <TableColumn fx:id="col_nom" prefWidth="178.7142333984375" text="NOM" />
+            <TableColumn fx:id="col_domaine" prefWidth="213.571533203125" text="DOMAINE" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txt_nom" layoutX="367.0" layoutY="207.0" prefHeight="45.0" prefWidth="223.0" promptText="Nom">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="txt_domaine" layoutX="367.0" layoutY="287.0" prefHeight="45.0" prefWidth="223.0" promptText="Domaine" />
+      <TextField fx:id="txt_id" layoutX="367.0" layoutY="159.0" opacity="0.0" visible="false" />
+      <Button layoutX="1047.0" layoutY="643.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="45.0" prefWidth="106.0" style="-fx-background-color: red;" text="Supprimer" textFill="WHITE" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="127.0">
+        
+          <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="684.0" layoutY="643.0" mnemonicParsing="false" onAction="#add_Classification" prefHeight="45.0" prefWidth="106.0" style="-fx-background-color: #0096C7;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="684.0">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="865.0" layoutY="643.0" mnemonicParsing="false" onAction="#edit" prefHeight="45.0" prefWidth="106.0" style="-fx-background-color: orange;" text="Modifier" textFill="WHITE" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="865.0" AnchorPane.rightAnchor="309.0">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="367.0" layoutY="187.0" text="Nom" textFill="#0077b6">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="367.0" layoutY="268.0" text="Domaine" textFill="#0077b6">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="453.0" layoutY="27.0" prefHeight="45.0" prefWidth="518.0" text="         Liste Des Classifications" textFill="#0077b6">
+         <font>
+            <Font name="Arial Black" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="filr_path" layoutX="403.0" layoutY="416.0" prefHeight="45.0" prefWidth="183.0" />
+      <Label layoutX="697.0" layoutY="94.0" text="Chercher Classification :" textFill="#2062bf" />
+      <JFXTextField fx:id="txt_keyword" layoutX="836.0" layoutY="90.0" prefHeight="25.0" prefWidth="183.0" unFocusColor="#253494" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="anch" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ProjetClientController">
+   <children>
+      <AnchorPane prefHeight="720.0" prefWidth="319.0" style="-fx-background-color: #0077B6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="146.0" fitWidth="260.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/logo%205edma%20tr.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="ButtonCompte" layoutY="593.0" onAction="#redirecttocompte" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               Compte
+            </Button>
+            <Button fx:id="ButtonProjet" layoutY="319.0" onAction="#redirecttoProjet" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               Projet
+            </Button>
+            <Button fx:id="ButtonMetier" layoutY="363.0" onAction="#redirecttometier" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               Metier
+            </Button>
+            <Button fx:id="ButtonAnnonce" layoutY="408.0" onAction="#redirectToAnnonce" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               Annonce
+            </Button>
+            <Button fx:id="ButtonEvenement" layoutY="458.0" onAction="#redirecttoevenement" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               Evenements
+            </Button>
+            <Button fx:id="ButtonSignOut" layoutY="642.0" onAction="#signout" prefWidth="319.0" style="-fx-background-color: #0096C7; -fx-text-fill: white;">
+                <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               Sign Out
+            </Button>
+         </children> 
+          
+      </AnchorPane>
+      <StackPane fx:id="stackPane" layoutX="319.0" layoutY="135.0" prefHeight="540.0" prefWidth="960.0">
+    <AnchorPane fx:id="addProjectPane" prefHeight="540.0" prefWidth="960.0" visible="false">
+
+<VBox spacing="20">
+        <Label style="-fx-font-size: 24px;" text="Add Project" />
+        <TextField fx:id="projectNameField" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="Project Name" />
+        <TextField fx:id="freelancerField" minWidth="-Infinity" prefWidth="300.0" promptText="Freelancer" />
+         <TextField fx:id="GitToken" minWidth="-Infinity" prefWidth="300.0" promptText="GitTokenr" />
+               <ComboBox fx:id="DomaineBox" prefWidth="150.0" />
+        <Button fx:id="addprojectbutton" onAction="#addproject" prefHeight="25.0" prefWidth="108.0" text="Add Project" />
+    </VBox>
+    </AnchorPane>
+    <AnchorPane fx:id="modifyProjectPane" prefHeight="540.0" prefWidth="960.0" visible="false">
+         <VBox alignment="CENTER" spacing="10.0">
+        <Label style="-fx-font-size: 24px;" text="Modify Project" />
+        <HBox alignment="CENTER" spacing="10.0">
+            <Label text="Project ID:" />
+            <ComboBox fx:id="projectIdComboBox" prefWidth="150.0" />
+        </HBox>
+        <VBox alignment="CENTER" spacing="10.0">
+            <Label style="-fx-font-size: 16px;" text="Modify Project Details" />
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="New Project Name:" />
+                <TextField fx:id="modifyProjectNameTextField" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="New Freelancer:" />
+                <TextField fx:id="modifyProjectFreelancerTextField" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="New Domain:" />
+                <TextField fx:id="modifyProjectDomainTextField" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="New Client:" />
+                <TextField fx:id="modifyProjectClientTextField" />
+            </HBox>
+            <Button fx:id="modifyProjectButton" onAction="#modifyProjectButtonClicked" text="Modify Project" />
+        </VBox>
+    </VBox>
+    </AnchorPane>
+    <AnchorPane fx:id="reviewProjectPane" prefHeight="540.0" prefWidth="960.0" visible="false">
+        <children>                  
+            <ScrollPane fx:id="scrollPane" hbarPolicy="AS_NEEDED" layoutX="3.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="943.0" vbarPolicy="ALWAYS">
+    <FlowPane fx:id="projectCardsPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="848.0" vgap="10.0">
+    <!-- project card nodes here -->
+</FlowPane>
+            
+       </ScrollPane>
+
+              
+              
+    </children>
+
+    </AnchorPane>
+    </StackPane>
+    <Button fx:id="addProjectButton" layoutX="503.0" layoutY="25.0" onAction="#showModifyProjectPane" text="Modify" />
+    <Button fx:id="ReviewProjectButton" layoutX="440.0" layoutY="25.0" onAction="#showReviewProjectPane" text="Review" />
+    <Button fx:id="ModifyProjectButton" layoutX="356.0" layoutY="25.0" onAction="#showAddProjectPane">Add Project</Button>
+      <Button fx:id="refreshbutton" layoutX="441.0" layoutY="61.0" mnemonicParsing="false" onAction="#tableupdate" text="Refresh" />
+      <TextField fx:id="searchfiled" layoutX="859.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="315.0" />
+   </children>
+   
+</AnchorPane>

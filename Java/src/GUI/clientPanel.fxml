@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="left_main" prefHeight="683.0" prefWidth="1196.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ClientPanelController">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="8.0" prefHeight="675.0" prefWidth="522.0" style="-fx-background-color: #073258;">
+         <children>
+            <Label layoutX="53.0" layoutY="435.0" prefHeight="50.0" prefWidth="395.0" text="Welcome to our platform" textFill="#fcfcfc">
+               <font>
+                  <Font size="34.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="313.0" fitWidth="287.0" layoutX="118.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="submitButton" contentDisplay="CENTER" defaultButton="true" layoutX="610.0" layoutY="559.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="31.0" prefWidth="192.0" style="-fx-background-color: #073258;" text="Modifier" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Akhbar MT" size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="nom" layoutX="557.0" layoutY="149.0" prefHeight="28.0" prefWidth="277.0" promptText="NOM" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <TextField fx:id="prenom" layoutX="883.0" layoutY="156.0" prefHeight="28.0" prefWidth="277.0" promptText="Prenom" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <TextField fx:id="cin" layoutX="557.0" layoutY="259.0" prefHeight="28.0" prefWidth="277.0" promptText="Cin" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <TextField fx:id="Tel" layoutX="883.0" layoutY="252.0" prefHeight="28.0" prefWidth="277.0" promptText="Tel" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <TextField fx:id="mail" layoutX="557.0" layoutY="362.0" prefHeight="28.0" prefWidth="277.0" promptText="Email" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <PasswordField fx:id="mdp" layoutX="891.0" layoutY="359.0" prefHeight="33.0" prefWidth="240.0" promptText="Password" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <Label fx:id="file_path" layoutX="661.0" layoutY="523.0" prefHeight="21.0" prefWidth="90.0" />
+      <TextField fx:id="domaine" layoutX="557.0" layoutY="439.0" prefHeight="28.0" prefWidth="277.0" promptText="Domaine" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <TextField fx:id="adresse" layoutX="883.0" layoutY="439.0" prefHeight="28.0" prefWidth="277.0" promptText="adresse" style="-fx-border-color: #073258; -fx-background-color: transparent; -fx-border-width: 0px 0px 2px 0px;" />
+      <Button fx:id="submitButton1" contentDisplay="CENTER" defaultButton="true" layoutX="891.0" layoutY="559.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="31.0" prefWidth="192.0" style="-fx-background-color: #073258;" text="Supprimer" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Akhbar MT" size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="722.0" layoutY="83.0" prefHeight="50.0" prefWidth="395.0" text="Compte Client" textFill="#073258">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <Button layoutX="1099.0" layoutY="14.0" mnemonicParsing="false" onAction="#retern" text="Retour" textFill="#321ee1" />
+   </children>
+</AnchorPane>

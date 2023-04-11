@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="anch" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.FrontFreelancerController">
+   <children>
+      <AnchorPane prefHeight="720.0" prefWidth="319.0" style="-fx-background-color: #0077B6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="146.0" fitWidth="260.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/logo%205edma%20tr.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="ButtonCompte" layoutY="593.0" onAction="#redirecttocompte" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7;" text="Compte" textFill="WHITE">
+               <ripplerFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#ffffff33" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="ButtonSignOut" layoutY="642.0" onAction="#signout" prefHeight="35.0" prefWidth="319.0" style="-fx-background-color: #0096C7;" text="Sign Out" textFill="WHITE">
+               <ripplerFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#ffffff33" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="48.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true" />
+         </children></AnchorPane>
+      <ScrollPane fx:id="scroll_pane" layoutX="343.0" layoutY="184.0" prefHeight="518.0" prefWidth="911.0">
+         <content>
+            <VBox fx:id="vbox" prefHeight="513.0" prefWidth="899.0" />
+         </content>
+      </ScrollPane>
+      <ImageView fx:id="image_view" fitHeight="150.0" fitWidth="200.0" layoutX="1045.0" layoutY="20.0" pickOnBounds="true" style="-fx-border-raduis: 50;" />
+      <Label layoutX="343.0" layoutY="61.0" prefHeight="68.0" prefWidth="175.0" text="Bonjour" wrapText="true">
+         <font>
+            <Font name="Arial" size="46.0" />
+         </font>
+      </Label>
+      <Label fx:id="label_name" layoutX="511.0" layoutY="64.0" prefHeight="68.0" prefWidth="385.0">
+         <font>
+            <Font name="Arial Bold" size="46.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
